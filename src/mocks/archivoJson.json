@@ -1,0 +1,20 @@
+{
+  "id": 1,
+  "label": "Node 1",
+  "ax": "a",
+  "ab": "ab",
+  "abc": "abc",
+  "n": 3,
+  "active": false,
+  "children": [
+    {
+      "id": 2,
+      "label": "Node 22",
+      "children": [
+        { "id": 4, "label": "Node 222" },
+        { "id": 5, "label": "Node 333" }
+      ]
+    },
+    { "id": 3, "label": "Node 33" }
+  ]
+}
