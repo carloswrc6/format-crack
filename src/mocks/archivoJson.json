@@ -1,20 +1,72 @@
-{
-  "id": 1,
-  "label": "Node 1",
-  "ax": "a",
-  "ab": "ab",
-  "abc": "abc",
-  "n": 3,
-  "active": false,
-  "children": [
-    {
-      "id": 2,
-      "label": "Node 22",
-      "children": [
-        { "id": 4, "label": "Node 222" },
-        { "id": 5, "label": "Node 333" }
-      ]
-    },
-    { "id": 3, "label": "Node 33" }
-  ]
-}
+[
+  {
+    "id": 1,
+    "label": "Node 1X",
+    "ax": "a",
+    "ab": "ab",
+    "abc": "abc",
+    "n": 3,
+    "active": false,
+    "active1": false,
+    "active2": false,
+    "active3": false,
+    "active6": false,
+    "active11": false,
+    "active21": false,
+    "active31": false,
+    "active61": false,
+    "children": [
+      {
+        "id": 2,
+        "label": "Node 22",
+        "children": [
+          {
+            "id": 4,
+            "label": "Node 222",
+            "active": false,
+            "active1": false,
+            "active2": false,
+            "active3": false,
+            "active6": false,
+            "active11": false,
+            "active21": false,
+            "active31": false,
+            "active61": false
+          },
+          { "id": 5, "label": "Node 333" }
+        ]
+      },
+      { "id": 3, "label": "Node 33" }
+    ]
+  },
+  {
+    "node": "Otro Nodo",
+    "active1": false,
+    "active2": false,
+    "active3": false,
+    "active6": false,
+    "children": [
+      {
+        "id": 2,
+        "label": "Node 22",
+        "children": [
+          {
+            "id": 4,
+            "label": "Node 222",
+            "active": false,
+            "active1": false,
+            "active2": false,
+            "active3": false,
+            "active6": false,
+            "active11": false,
+            "active21": false,
+            "active31": false,
+            "active61": false
+          },
+          { "id": 5, "label": "Node 333" }
+        ]
+      },
+      { "id": 3, "label": "Node 33" }
+    ]
+  }
+]
