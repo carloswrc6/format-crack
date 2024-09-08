@@ -1,72 +1,43 @@
 [
   {
-    "id": 1,
-    "label": "Node 1X",
-    "ax": "a",
-    "ab": "ab",
-    "abc": "abc",
-    "n": 3,
-    "active": false,
-    "active1": false,
-    "active2": false,
-    "active3": false,
-    "active6": false,
-    "active11": false,
-    "active21": false,
-    "active31": false,
-    "active61": false,
-    "children": [
+    "a": "a",
+    "b": "a",
+    "c": "a",
+    "objeto 1": {
+      "p1": "objeto 1 - p1",
+      "p2": "p2",
+      "p3": "p3"
+    },
+    "array 1": ["array - 1", 2, 3],
+    "arrayObjetos": [
       {
-        "id": 2,
-        "label": "Node 22",
-        "children": [
-          {
-            "id": 4,
-            "label": "Node 222",
-            "active": false,
-            "active1": false,
-            "active2": false,
-            "active3": false,
-            "active6": false,
-            "active11": false,
-            "active21": false,
-            "active31": false,
-            "active61": false
-          },
-          { "id": 5, "label": "Node 333" }
-        ]
+        "a": "arrayObjetos -pos 0- a",
+        "b": "a",
+        "c": "a"
       },
-      { "id": 3, "label": "Node 33" }
+      {
+        "a": "arrayObjetos -pos 1- a",
+        "b": "a",
+        "c": "a"
+      }
     ]
   },
   {
-    "node": "Otro Nodo",
-    "active1": false,
-    "active2": false,
-    "active3": false,
-    "active6": false,
-    "children": [
+    "a": "a1",
+    "b": "a2",
+    "c": "a3",
+    "objeto": {
+      "p1": "p1",
+      "p2": "p2",
+      "p3": "p3"
+    },
+    "array": [1, 2, 3],
+    "arrayObjetos": [
       {
-        "id": 2,
-        "label": "Node 22",
-        "children": [
-          {
-            "id": 4,
-            "label": "Node 222",
-            "active": false,
-            "active1": false,
-            "active2": false,
-            "active3": false,
-            "active6": false,
-            "active11": false,
-            "active21": false,
-            "active31": false,
-            "active61": false
-          },
-          { "id": 5, "label": "Node 333" }
-        ]
-      },
-      { "id": 3, "label": "Node 33" }
+        "a": "a",
+        "b": "a",
+        "c": "a"
+      }
     ]
   }
 ]
