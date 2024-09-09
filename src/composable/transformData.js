@@ -1,39 +1,81 @@
 import { v4 as uuidv4 } from "uuid";
 
+/**
+ * Transforma un array de objetos o un solo objeto en un array de nodos con formato específico.
+ * Los objetos anidados también se incluyen en el resultado final con tipos y nombres específicos.
+ *
+ * @param {Array|Object} inputData - Array de objetos o un solo objeto a transformar.
+ * @returns {Array} nodeArray - Array de nodos transformados.
+ */
 export function transformToNodeArray(inputData) {
-  console.log("inputData 1 ", inputData);
-  console.log("inputData 1 length", inputData.length);
+  // Asegurarse de que `inputData` es un array, si es un solo objeto, convertirlo en un array
+  let dataArray = Array.isArray(inputData) ? inputData : [inputData];
+
+  // Comprobar que `dataArray` no está vacío y que contiene solo objetos válidos
+  if (dataArray.length === 0 || !dataArray.every(item => typeof item === 'object' && item !== null)) {
+    throw new Error("inputData debe ser un array de objetos no vacíos o un solo objeto.");
+  }
 
   let nodeArray = []; // Array para almacenar los nuevos objetos
+  let nodeId = 1; // ID único para cada nodo
 
-  for (let i = 0; i < inputData.length; i++) {
-    let currentObject = inputData[i]; // Obtenemos el objeto actual
-    let nodeData = {}; // Crear el objeto `data` para almacenar las claves y valores
+  // Función para procesar un objeto y sus valores anidados
+  function processObject(obj, parentId = null) {
+    let nodes = [];
+    let nodeData = {};
+    let nestedObjects = [];
+    let nodeName = "";
 
-    // Iterar sobre las claves y valores del objeto actual
-    for (const key in currentObject) {
-      if (currentObject.hasOwnProperty(key)) {
-        let value = currentObject[key];
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        let value = obj[key];
 
-        // Verificamos que el valor sea primitivo
-        if (typeof value !== "object" || value === null) {
-          // Si el valor es un tipo primitivo (string, number, boolean), lo añadimos
+        if (typeof value === 'object' && value !== null) {
+          // Es un objeto anidado, procesar el objeto
+          nestedObjects.push({ key, value });
+        } else {
+          // Valor primitivo
           nodeData[key] = value;
         }
       }
     }
 
-    // Crear el objeto final con las propiedades adicionales
-    let newNode = {
-      id: uuidv4(), // id único
-      height: 125, // Puedes ajustar estos valores según sea necesario
-      width: 250,
-      type: "nodo",
-      data: nodeData, // Añadir el objeto con las claves y valores
-    };
+    // Si hay objetos anidados, creamos un nodo intermedio para cada uno
+    if (nestedObjects.length > 0) {
+      nodeName = nestedObjects[0].key; // Tomar el nombre del primer objeto anidado
+      // Nodo intermedio
+      nodes.push({
+        id: uuidv4(),
+        height: 125,
+        width: 250,
+        type: "Object",
+        data: { name: nodeName },
+      });
+    }
 
-    nodeArray.push(newNode); // Añadir el nuevo nodo al array
+    // Nodo principal
+    nodes.push({
+      id: uuidv4(),
+      height: 125,
+      width: 250,
+      type: parentId === null ? "nodo" : "ObjectObject",
+      data: nodeData,
+    });
+
+    // Procesar objetos anidados
+    nestedObjects.forEach(({ key, value }) => {
+      let nestedNodes = processObject(value, key);
+      nestedNodes.forEach(n => nodes.push(n));
+    });
+
+    return nodes;
   }
+
+  // Procesar cada objeto en el array
+  dataArray.forEach(obj => {
+    let processedData = processObject(obj);
+    nodeArray.push(...processedData);
+  });
 
   return nodeArray;
 }
