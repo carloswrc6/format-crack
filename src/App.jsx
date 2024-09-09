@@ -1,69 +1,157 @@
 import React, { useState } from "react";
 import { Canvas, Node } from "reaflow";
 import "./App.css";
+import data from "../src/mocks/archivoJson.json";
+import { transformToNodeArray } from "../src/composable/transformData";
 const App = () => {
-  const [nodes, setNodes] = useState([
-    // {
-    //   id: "1",
-    //   // ancho y alto del bloque
-    //   height: 125,
-    //   width: 250,
-    //   data: {
-    //     value: 50,
-    //   },
-    // },
-    // {
-    //   id: "2",
-    //   height: 125,
-    //   width: 250,
-    //   data: {
-    //     value: 25,
-    //   },
-    // },
-    {
-      id: "1",
-      height: 225,
-      width: 250,
-      data: {
-        a: "a",
-        b: "a",
-        c: "a",
-        objeto: {
-          p1: "p1",
-          p2: "p2",
-          p3: "p3",
-        },
-        array: [1, 2, 3],
-        arrayObjetos: [
-          {
-            a: "a",
-            b: "a",
-            c: "a",
-          },
-        ],
-      },
-    },
-    {
-      id: "2",
-      height: 125,
-      width: 250,
-      data: {
-        d: "a",
-        e: "a",
-        "f ": "a",
-      },
-    },
-  ]);
+  // const [nodes, setNodes] = useState([
+  //   {
+  //     id: "1",
+  //     height: 125,
+  //     width: 250,
+  //     type: "nodo",
+  //     data: {
+  //       a: "a",
+  //       b: "a",
+  //       c: "a",
+  //     },
+  //   },
+  //   {
+  //     id: "2",
+  //     height: 125,
+  //     width: 250,
+  //     type: "Object",
+  //     data: {
+  //       name: "objeto",
+  //     },
+  //   },
+  //   {
+  //     id: "3",
+  //     height: 125,
+  //     width: 250,
+  //     type: "ObjectObject",
+  //     data: {
+  //       p1: "p1",
+  //       p2: "p2",
+  //       p3: "p3",
+  //     },
+  //   },
+  //   {
+  //     id: "4",
+  //     height: 125,
+  //     width: 250,
+  //     type: "Array",
+  //     data: {
+  //       name: "array 1",
+  //     },
+  //   },
+  //   {
+  //     id: "5",
+  //     height: 125,
+  //     width: 250,
+  //     type: "ArrayValue",
+  //     data: {
+  //       value: "array 1 d",
+  //     },
+  //   },
+  //   {
+  //     id: "6",
+  //     height: 125,
+  //     width: 250,
+  //     type: "ArrayValue",
+  //     data: {
+  //       value: 2,
+  //     },
+  //   },
+  //   {
+  //     id: "7",
+  //     height: 125,
+  //     width: 250,
+  //     type: "ArrayValue",
+  //     data: {
+  //       value: 3,
+  //     },
+  //   },
+  //   {
+  //     id: "8",
+  //     height: 125,
+  //     width: 250,
+  //     type: "ArrayObject",
+  //     data: {
+  //       name: "arrayObjetos",
+  //     },
+  //   },
+  //   {
+  //     id: "9",
+  //     height: 125,
+  //     width: 250,
+  //     type: "ObjectArray",
+  //     data: {
+  //       a: "arrayObjetos -pos 0- a",
+  //       b: "a",
+  //       c: "a",
+  //     },
+  //   },
+  //   {
+  //     id: "10",
+  //     height: 125,
+  //     width: 250,
+  //     type: "ObjectArray",
+  //     data: {
+  //       a: "arrayObjetos -pos 1- a",
+  //       b: "a",
+  //       c: "a",
+  //     },
+  //   },
+  // ]);
+
+  const [nodes, setNodes] = useState(transformToNodeArray(data));
+  console.log("nodes -> s xxyy ", nodes);
   const [edges, setEdges] = useState([
-    {
-      id: "1-2",
-      from: "1",
-      to: "2",
-    },
     // {
-    //   id: "1-3",
+    //   id: "1-2",
     //   from: "1",
+    //   to: "2",
+    // },
+    // {
+    //   id: "2-3",
+    //   from: "2",
     //   to: "3",
+    // },
+    // {
+    //   id: "1-4",
+    //   from: "1",
+    //   to: "4",
+    // },
+    // {
+    //   id: "4-5",
+    //   from: "4",
+    //   to: "5",
+    // },
+    // {
+    //   id: "4-6",
+    //   from: "4",
+    //   to: "6",
+    // },
+    // {
+    //   id: "4-7",
+    //   from: "4",
+    //   to: "7",
+    // },
+    // {
+    //   id: "1-8",
+    //   from: "1",
+    //   to: "8",
+    // },
+    // {
+    //   id: "8-9",
+    //   from: "8",
+    //   to: "9",
+    // },
+    // {
+    //   id: "8-10",
+    //   from: "8",
+    //   to: "10",
     // },
   ]);
   // se debe de convertir el array de objetos a algo plano
