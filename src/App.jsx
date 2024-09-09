@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Canvas, Node } from "reaflow";
 import "./App.css";
-import data from "../src/mocks/archivoJson.json";
+import data from "../src/mocks/archivoJson5.json";
 import { generateLinks } from "../src/composable/generateLink";
 import { transformToNodeArray } from "../src/composable/transformData";
 
@@ -26,6 +26,8 @@ const App = () => {
       <Canvas
         // maxWidth={"100vw"}
         // maxHeight={"100vh"}
+        // Para mostrar por direccion
+        direction="RIGHT"        
         // Para evitar el click y que salgan lineas
         readonly={true}
         // Para centrar la img

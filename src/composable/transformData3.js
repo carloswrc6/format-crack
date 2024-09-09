@@ -73,8 +73,8 @@ export function transformToNodeArray(inputData) {
 
     // Procesar arreglos anidados
     nestedArrays.forEach(({ key, value }) => {
-      if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
-        // El arreglo contiene objetos
+      if (typeof value[0] === 'object' && value[0] !== null) {
+        // Crear nodo intermedio para el arreglo de objetos
         let arrayObjectNode = {
           id: uuidv4(),
           height: 125,
@@ -88,10 +88,19 @@ export function transformToNodeArray(inputData) {
 
         // Crear un nodo para cada objeto dentro del arreglo
         value.forEach((element) => {
-          processObject(element, arrayObjectNode.id);
+          let elementNode = {
+            id: uuidv4(),
+            height: 125,
+            width: 250,
+            type: "ObjectObject",
+            data: element,
+            parentId: arrayObjectNode.id
+          };
+
+          nodeArray.push(elementNode);
         });
       } else {
-        // El arreglo contiene elementos primitivos
+        // Crear nodo intermedio para el arreglo de elementos primitivos
         let arrayNode = {
           id: uuidv4(),
           height: 125,
