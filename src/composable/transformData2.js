@@ -73,59 +73,31 @@ export function transformToNodeArray(inputData) {
 
     // Procesar arreglos anidados
     nestedArrays.forEach(({ key, value }) => {
-      if (typeof value[0] === 'object' && value[0] !== null) {
-        // Crear nodo intermedio para el arreglo de objetos
-        let arrayObjectNode = {
+      // Crear nodo intermedio para el arreglo
+      let arrayNode = {
+        id: uuidv4(),
+        height: 125,
+        width: 250,
+        type: "Array",
+        data: { name: key },
+        parentId: mainNode.id
+      };
+
+      nodeArray.push(arrayNode);
+
+      // Crear un nodo para cada elemento del arreglo
+      value.forEach((element) => {
+        let elementNode = {
           id: uuidv4(),
           height: 125,
           width: 250,
-          type: "ArrayObject",
-          data: { name: key },
-          parentId: mainNode.id
+          type: "ElementArray",
+          data: { value: element },
+          parentId: arrayNode.id
         };
 
-        nodeArray.push(arrayObjectNode);
-
-        // Crear un nodo para cada objeto dentro del arreglo
-        value.forEach((element) => {
-          let elementNode = {
-            id: uuidv4(),
-            height: 125,
-            width: 250,
-            type: "ObjectObject",
-            data: element,
-            parentId: arrayObjectNode.id
-          };
-
-          nodeArray.push(elementNode);
-        });
-      } else {
-        // Crear nodo intermedio para el arreglo de elementos primitivos
-        let arrayNode = {
-          id: uuidv4(),
-          height: 125,
-          width: 250,
-          type: "Array",
-          data: { name: key },
-          parentId: mainNode.id
-        };
-
-        nodeArray.push(arrayNode);
-
-        // Crear un nodo para cada elemento del arreglo
-        value.forEach((element) => {
-          let elementNode = {
-            id: uuidv4(),
-            height: 125,
-            width: 250,
-            type: "ElementArray",
-            data: { value: element },
-            parentId: arrayNode.id
-          };
-
-          nodeArray.push(elementNode);
-        });
-      }
+        nodeArray.push(elementNode);
+      });
     });
   }
 

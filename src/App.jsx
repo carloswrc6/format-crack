@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Canvas, Node } from "reaflow";
 import "./App.css";
-import data from "../src/mocks/archivoJson3.json";
+import data from "../src/mocks/archivoJson.json";
 import { generateLinks } from "../src/composable/generateLink";
 import { transformToNodeArray } from "../src/composable/transformData";
 
 const App = () => {
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
-
+  console.log(' NODES -> ', JSON.stringify(nodes))
+  console.log(' EDGES -> ', JSON.stringify(edges))
   // se debe de convertir el array de objetos a algo plano
   // para meter todo eso dentro de data
   return (
