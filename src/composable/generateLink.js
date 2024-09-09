@@ -5,12 +5,12 @@ export function generateLinks (nodes){
   nodes.forEach((node) => {
     console.log('en el for generateLinks', node)
 
-      if (node.idParent) {
+      if (node.parentId) {
         console.log('add generateLinks')
 
           links.push({
-              id: `${node.idParent}-${node.id}`,
-              from: node.idParent,
+              id: `${node.parentId}-${node.id}`,
+              from: node.parentId,
               to: node.id,
           });
       }

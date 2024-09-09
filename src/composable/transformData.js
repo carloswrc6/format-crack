@@ -17,14 +17,11 @@ export function transformToNodeArray(inputData) {
   }
 
   let nodeArray = []; // Array para almacenar los nuevos objetos
-  let nodeId = 1; // ID único para cada nodo
 
   // Función para procesar un objeto y sus valores anidados
   function processObject(obj, parentId = null) {
-    let nodes = [];
     let nodeData = {};
     let nestedObjects = [];
-    let nodeName = "";
 
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -40,42 +37,39 @@ export function transformToNodeArray(inputData) {
       }
     }
 
-    // Si hay objetos anidados, creamos un nodo intermedio para cada uno
-    if (nestedObjects.length > 0) {
-      nodeName = nestedObjects[0].key; // Tomar el nombre del primer objeto anidado
-      // Nodo intermedio
-      nodes.push({
-        id: uuidv4(),
-        height: 125,
-        width: 250,
-        type: "Object",
-        data: { name: nodeName },
-      });
-    }
-
     // Nodo principal
-    nodes.push({
+    let mainNode = {
       id: uuidv4(),
       height: 125,
       width: 250,
       type: parentId === null ? "nodo" : "ObjectObject",
       data: nodeData,
-    });
+      parentId: parentId
+    };
+
+    nodeArray.push(mainNode);
 
     // Procesar objetos anidados
     nestedObjects.forEach(({ key, value }) => {
-      let nestedNodes = processObject(value, key);
-      nestedNodes.forEach(n => nodes.push(n));
-    });
+      // Crear nodo intermedio para el objeto anidado
+      let nestedNode = {
+        id: uuidv4(),
+        height: 125,
+        width: 250,
+        type: "Object",
+        data: { name: key },
+        parentId: mainNode.id
+      };
 
-    return nodes;
+      nodeArray.push(nestedNode);
+
+      // Recursivamente procesar el objeto anidado
+      processObject(value, nestedNode.id);
+    });
   }
 
   // Procesar cada objeto en el array
-  dataArray.forEach(obj => {
-    let processedData = processObject(obj);
-    nodeArray.push(...processedData);
-  });
+  dataArray.forEach(obj => processObject(obj));
 
   return nodeArray;
 }
