@@ -1,9 +1,18 @@
 {
   "squadName": "Super hero squad",
-  "homeTown": "Metro City",
-  "formed": 2016,
-  "secretBase": "Super tower",
-  "active": true,
+  "squadName1": "Super hero squad",
+  "squadName2": "Super hero squad",
+  "squadName3": "Super hero squad",
+  "squadName11": "Super hero squad",
+  "squadName22": "Super hero squad",
+  "squadName33": "Super hero squad",
+  "xsquadName": "Super hero squad",
+  "xsquadName1": "Super hero squad",
+  "xsquadName2": "Super hero squad",
+  "xsquadName3": "Super hero squad",
+  "xsquadName11": "Super hero squad",
+  "xsquadName22": "Super hero squad",
+  "xsEuadName33": "Sueer hero seuad",
   "members": [
     {
       "name": "Molecule Man",

@@ -3,10 +3,10 @@ import React from "react";
 
 const CustomNode = ({ event }) => {
   return (
-    <foreignObject height={event.height} width={event.width} x={0} y={0}>
+    <foreignObject height={event.height*2} width={event.width} x={0} y={-20}>
       <div
         style={{
-          padding: 10,
+          // paddingLeft: "10px",
           textAlign: "center",
           // background: "white",
         }}
@@ -28,6 +28,7 @@ const CustomNode = ({ event }) => {
                 <div key={index}>
                   <strong style={{ color: "aqua" }}>{key}:</strong>
                   <strong style={{ color: "black" }}>
+                    {/* {` "` + event.height + `" `} */}
                     {` "` + value.toString() + `" `}
                   </strong>
                 </div>

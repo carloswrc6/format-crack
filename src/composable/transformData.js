@@ -41,25 +41,38 @@ export function transformToNodeArray(inputData) {
       }
     }
 
+    // Cálculo dinámico de la altura en función del número de claves
+    const calculatedHeight = (Object.keys(nodeData).length * 30) - (Object.keys(nodeData).length * 2); 
+
+    // Cálculo dinámico del ancho en función de la concatenación de claves y valores
+    const longestConcatenation = Object.entries(nodeData).reduce((maxLength, [key, value]) => {
+      const concatenatedLength = (key + value.toString()).length;
+      return Math.max(maxLength, concatenatedLength);
+    }, 0);
+    const calculatedWidth = longestConcatenation * 10 + 100; // Ancho basado en la longitud de clave + valor concatenados
+
     // Nodo principal
     let mainNode = {
       id: uuidv4(),
-      height: 125,
-      width: 250,
+      height: calculatedHeight, // Altura dinámica
+      width: calculatedWidth, // Ancho dinámico
       type: parentId === null ? "nodo" : "ObjectObject",
       data: nodeData,
       parentId: parentId
     };
 
     nodeArray.push(mainNode);
-
+ 
     // Procesar objetos anidados
     nestedObjects.forEach(({ key, value }) => {
-      // Crear nodo intermedio para el objeto anidado
+      // Cálculo dinámico para el nodo intermedio
+      const nestedNodeHeight = 30; // Altura fija para el nodo intermedio
+      const nestedNodeWidth = (key.length + 5) * 10 + 100; // Ancho basado en la longitud de la clave
+
       let nestedNode = {
         id: uuidv4(),
-        height: 125,
-        width: 250,
+        height: nestedNodeHeight, // Altura fija o dinámica
+        width: nestedNodeWidth, // Ancho dinámico basado en la longitud de la clave
         type: "Object",
         data: { name: key },
         parentId: mainNode.id
@@ -75,10 +88,15 @@ export function transformToNodeArray(inputData) {
     nestedArrays.forEach(({ key, value }) => {
       if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
         // El arreglo contiene objetos
+
+        // Cálculo dinámico del nodo para el arreglo de objetos
+        const arrayObjectNodeHeight = 30; // Altura fija para el nodo del arreglo
+        const arrayObjectNodeWidth = (key.length + 5) * 10 + 80; // Ancho dinámico basado en la longitud de la clave
+
         let arrayObjectNode = {
           id: uuidv4(),
-          height: 125,
-          width: 250,
+          height: arrayObjectNodeHeight, // Altura fija o dinámica
+          width: arrayObjectNodeWidth, // Ancho dinámico
           type: "ArrayObject",
           data: { name: key },
           parentId: mainNode.id
@@ -92,10 +110,15 @@ export function transformToNodeArray(inputData) {
         });
       } else {
         // El arreglo contiene elementos primitivos
+
+        // Cálculo dinámico del nodo para el arreglo
+        const arrayNodeHeight = 30; // Altura fija para el nodo del arreglo
+        const arrayNodeWidth = (key.length + 5) * 10 + 80; // Ancho dinámico basado en la longitud de la clave
+
         let arrayNode = {
           id: uuidv4(),
-          height: 125,
-          width: 250,
+          height: arrayNodeHeight, // Altura fija o dinámica
+          width: arrayNodeWidth, // Ancho dinámico
           type: "Array",
           data: { name: key },
           parentId: mainNode.id
@@ -105,10 +128,13 @@ export function transformToNodeArray(inputData) {
 
         // Crear un nodo para cada elemento del arreglo
         value.forEach((element) => {
+          // Cálculo dinámico del nodo para cada elemento del arreglo
+          const elementNodeWidth = (element.toString().length + 5) * 10 + 80; // Ancho dinámico basado en la longitud del valor
+
           let elementNode = {
             id: uuidv4(),
-            height: 125,
-            width: 250,
+            height: 30, // Altura fija o dinámica
+            width: elementNodeWidth, // Ancho dinámico
             type: "ElementArray",
             data: { value: element },
             parentId: arrayNode.id
