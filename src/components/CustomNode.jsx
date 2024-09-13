@@ -3,10 +3,11 @@ import React from "react";
 
 const CustomNode = ({ event }) => {
   return (
-    <foreignObject height={event.height*2} width={event.width} x={0} y={-20}>
+    <foreignObject height={event.height * 2} width={event.width} x={0} y={-20}>
       <div
         style={{
-          // paddingLeft: "10px",
+          paddingLeft: "17px",
+          // marginLeft: "20px",
           textAlign: "center",
           // background: "white",
         }}

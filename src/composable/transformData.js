@@ -12,8 +12,13 @@ export function transformToNodeArray(inputData) {
   let dataArray = Array.isArray(inputData) ? inputData : [inputData];
 
   // Comprobar que `dataArray` no está vacío y que contiene solo objetos válidos
-  if (dataArray.length === 0 || !dataArray.every(item => typeof item === 'object' && item !== null)) {
-    throw new Error("inputData debe ser un array de objetos no vacíos o un solo objeto.");
+  if (
+    dataArray.length === 0 ||
+    !dataArray.every((item) => typeof item === "object" && item !== null)
+  ) {
+    throw new Error(
+      "inputData debe ser un array de objetos no vacíos o un solo objeto."
+    );
   }
 
   let nodeArray = []; // Array para almacenar los nuevos objetos
@@ -31,7 +36,7 @@ export function transformToNodeArray(inputData) {
         if (Array.isArray(value)) {
           // Es un arreglo, procesar el arreglo
           nestedArrays.push({ key, value });
-        } else if (typeof value === 'object' && value !== null) {
+        } else if (typeof value === "object" && value !== null) {
           // Es un objeto anidado, procesar el objeto
           nestedObjects.push({ key, value });
         } else {
@@ -42,14 +47,18 @@ export function transformToNodeArray(inputData) {
     }
 
     // Cálculo dinámico de la altura en función del número de claves
-    const calculatedHeight = (Object.keys(nodeData).length * 30) - (Object.keys(nodeData).length * 2); 
+    const calculatedHeight =
+      Object.keys(nodeData).length * 30 - Object.keys(nodeData).length * 2;
 
     // Cálculo dinámico del ancho en función de la concatenación de claves y valores
-    const longestConcatenation = Object.entries(nodeData).reduce((maxLength, [key, value]) => {
-      const concatenatedLength = (key + value.toString()).length;
-      return Math.max(maxLength, concatenatedLength);
-    }, 0);
-    const calculatedWidth = longestConcatenation * 10 + 100; // Ancho basado en la longitud de clave + valor concatenados
+    const longestConcatenation = Object.entries(nodeData).reduce(
+      (maxLength, [key, value]) => {
+        const concatenatedLength = (key + value.toString()).length;
+        return Math.max(maxLength, concatenatedLength);
+      },
+      0
+    );
+    const calculatedWidth = longestConcatenation * 10 + 70; // Ancho basado en la longitud de clave + valor concatenados
 
     // Nodo principal
     let mainNode = {
@@ -58,11 +67,11 @@ export function transformToNodeArray(inputData) {
       width: calculatedWidth, // Ancho dinámico
       type: parentId === null ? "nodo" : "ObjectObject",
       data: nodeData,
-      parentId: parentId
+      parentId: parentId,
     };
 
     nodeArray.push(mainNode);
- 
+
     // Procesar objetos anidados
     nestedObjects.forEach(({ key, value }) => {
       // Cálculo dinámico para el nodo intermedio
@@ -75,7 +84,7 @@ export function transformToNodeArray(inputData) {
         width: nestedNodeWidth, // Ancho dinámico basado en la longitud de la clave
         type: "Object",
         data: { name: key },
-        parentId: mainNode.id
+        parentId: mainNode.id,
       };
 
       nodeArray.push(nestedNode);
@@ -86,7 +95,11 @@ export function transformToNodeArray(inputData) {
 
     // Procesar arreglos anidados
     nestedArrays.forEach(({ key, value }) => {
-      if (value.length > 0 && typeof value[0] === 'object' && value[0] !== null) {
+      if (
+        value.length > 0 &&
+        typeof value[0] === "object" &&
+        value[0] !== null
+      ) {
         // El arreglo contiene objetos
 
         // Cálculo dinámico del nodo para el arreglo de objetos
@@ -99,7 +112,7 @@ export function transformToNodeArray(inputData) {
           width: arrayObjectNodeWidth, // Ancho dinámico
           type: "ArrayObject",
           data: { name: key },
-          parentId: mainNode.id
+          parentId: mainNode.id,
         };
 
         nodeArray.push(arrayObjectNode);
@@ -121,7 +134,7 @@ export function transformToNodeArray(inputData) {
           width: arrayNodeWidth, // Ancho dinámico
           type: "Array",
           data: { name: key },
-          parentId: mainNode.id
+          parentId: mainNode.id,
         };
 
         nodeArray.push(arrayNode);
@@ -137,7 +150,7 @@ export function transformToNodeArray(inputData) {
             width: elementNodeWidth, // Ancho dinámico
             type: "ElementArray",
             data: { value: element },
-            parentId: arrayNode.id
+            parentId: arrayNode.id,
           };
 
           nodeArray.push(elementNode);
@@ -147,7 +160,7 @@ export function transformToNodeArray(inputData) {
   }
 
   // Procesar cada objeto en el array
-  dataArray.forEach(obj => processObject(obj));
+  dataArray.forEach((obj) => processObject(obj));
 
   return nodeArray;
 }
