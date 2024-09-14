@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Canvas, Node } from "reaflow";
 import "./App.css";
-import data from "../src/mocks/archivoJson.json";
-import { generateLinks } from "../src/composable/generateLink";
-import { transformToNodeArray } from "../src/composable/transformData";
+import data from "../src/mocks/archivoJson7.json";
+import { generateLinks } from "../src/utils/generateLink";
+import { transformToNodeArray } from "../src/utils/transformData";
 import CustomNode from "./components/CustomNode";
 const App = () => {
   const [nodes, setNodes] = useState(transformToNodeArray(data));
