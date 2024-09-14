@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { calculateNodeDimensions } from "./calculateNodeDimensions";
+import { classifyObjectData } from "./classifyObjectData";
 
 /**
  * Transforma un array de objetos o un solo objeto en un array de nodos con formato específico.
@@ -26,26 +27,15 @@ export function transformToNodeArray(inputData) {
 
   // Función para procesar un objeto y sus valores anidados
   function processObject(obj, parentId = null) {
-    let nodeData = {};
-    let nestedObjects = [];
-    let nestedArrays = [];
+    console.log(" -- ", obj);
+    let classObjData = classifyObjectData(obj);
+    let nodeData = classObjData.nodeData;
+    let nestedObjects = classObjData.nestedObjects;
+    let nestedArrays = classObjData.nestedArrays;
 
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        let value = obj[key];
-
-        if (Array.isArray(value)) {
-          // Es un arreglo, procesar el arreglo
-          nestedArrays.push({ key, value });
-        } else if (typeof value === "object" && value !== null) {
-          // Es un objeto anidado, procesar el objeto
-          nestedObjects.push({ key, value });
-        } else {
-          // Valor primitivo
-          nodeData[key] = value;
-        }
-      }
-    }
+    // console.log("nodeData -> ", nodeData);
+    // console.log("nestedObjects -> ", nestedObjects);
+    // console.log("nestedArrays -> ", nestedArrays);
 
     let NodeDimensions = calculateNodeDimensions(nodeData);
     // Nodo principal
@@ -148,6 +138,7 @@ export function transformToNodeArray(inputData) {
   }
 
   // Procesar cada objeto en el array
+  console.log("Procesando el objeto enviado");
   dataArray.forEach((obj) => processObject(obj));
 
   return nodeArray;
