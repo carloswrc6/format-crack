@@ -1,19 +1,17 @@
 {
   "squadName": "Super hero squad",
-  "squadName1": "Super hero squad",
-  "squadName2": "Super hero squad",
-  "squadName3": "Super hero squad",
-  "squadName11": "Super hero squad",
-  "squadName22": "Super hero squad",
-  "squadName33": "Super hero squad",
-  "xsquadName": "Super hero squad",
-  "xsquadName1": "Super hero squad",
-  "xsquadName2": "Super hero squad",
-  "xsquadName3": "Super hero squad",
-  "xsquadName11": "Super hero squad",
-  "xsquadName22": "Super hero squad",
-  "xsEuadName335555": "Sueer hero seuad",
-  "xsEuadName335555asdasdasdsa": "Sueer hero seuad",
+  "objetou": {
+    "name": "Eternal Flame",
+    "age": 1000000,
+    "secretIdentity": "Unknown",
+    "powers": [
+      "Immortality",
+      "Heat Immunity",
+      "Inferno",
+      "Teleportation",
+      "Interdimensional travel"
+    ]
+  },
   "members": [
     {
       "name": "Molecule Man",
@@ -33,18 +31,6 @@
         "Million tonne punch",
         "Damage resistance",
         "Superhuman reflexes"
-      ]
-    },
-    {
-      "name": "Eternal Flame",
-      "age": 1000000,
-      "secretIdentity": "Unknown",
-      "powers": [
-        "Immortality",
-        "Heat Immunity",
-        "Inferno",
-        "Teleportation",
-        "Interdimensional travel"
       ]
     }
   ]

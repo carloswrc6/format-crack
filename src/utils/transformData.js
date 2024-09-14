@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { calculateNodeDimensions } from "./calcularAnchoAlto";
+import { calculateNodeDimensions } from "./calculateNodeDimensions";
 
 /**
  * Transforma un array de objetos o un solo objeto en un array de nodos con formato específico.
