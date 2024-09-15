@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import { calculateNodeDimensions } from "./calculateNodeDimensions";
+import {
+  calculateNodeDimensions,
+  calculateNestedNodeDimensions,
+} from "./calculateNodeDimensions";
 import { classifyObjectData } from "./classifyObjectData";
 
 /**
@@ -26,16 +29,15 @@ export function transformToNodeArray(inputData) {
   let nodeArray = []; // Array para almacenar los nuevos objetos
 
   // Función para procesar un objeto y sus valores anidados
-  function processObject(obj, parentId = null) {
-    console.log(" -- ", obj);
+  function processObject(obj, parentId = null, typoData) {
     let classObjData = classifyObjectData(obj);
     let nodeData = classObjData.nodeData;
     let nestedObjects = classObjData.nestedObjects;
     let nestedArrays = classObjData.nestedArrays;
 
-    // console.log("nodeData -> ", nodeData);
-    // console.log("nestedObjects -> ", nestedObjects);
-    // console.log("nestedArrays -> ", nestedArrays);
+    console.log("nodeData -> ", nodeData);
+    console.log("nestedObjects -> ", nestedObjects);
+    console.log("nestedArrays -> ", nestedArrays);
 
     let NodeDimensions = calculateNodeDimensions(nodeData);
     // Nodo principal
@@ -43,24 +45,22 @@ export function transformToNodeArray(inputData) {
       id: uuidv4(),
       height: NodeDimensions.height, // Altura dinámica
       width: NodeDimensions.width, // Ancho dinámico
-      type: parentId === null ? "nodo" : "ObjectObject",
+      type: parentId === null ? "nodo" : typoData,
       data: nodeData,
       parentId: parentId,
     };
 
     nodeArray.push(mainNode);
-
+    console.log("xxxxxxxxxxxxxxxx");
+    console.log("nestedObjects -> ", nestedObjects);
     // Procesar objetos anidados
     nestedObjects.forEach(({ key, value }) => {
-      // Cálculo dinámico para el nodo intermedio
-      const nestedNodeHeight = 30; // Altura fija para el nodo intermedio
-      const nestedNodeWidth = (key.length + 5) * 10 + 100; // Ancho basado en la longitud de la clave
-
+      let nestedNodeDimention = calculateNestedNodeDimensions(key);
       let nestedNode = {
         id: uuidv4(),
-        height: nestedNodeHeight, // Altura fija o dinámica
-        width: nestedNodeWidth, // Ancho dinámico basado en la longitud de la clave
-        type: "Object",
+        height: nestedNodeDimention.height, // Altura fija o dinámica
+        width: nestedNodeDimention.width, // Ancho dinámico basado en la longitud de la clave
+        type: typoData ?? "Object",
         data: { name: key },
         parentId: mainNode.id,
       };
@@ -68,7 +68,7 @@ export function transformToNodeArray(inputData) {
       nodeArray.push(nestedNode);
 
       // Recursivamente procesar el objeto anidado
-      processObject(value, nestedNode.id);
+      processObject(value, nestedNode.id, "ElementObject");
     });
 
     // Procesar arreglos anidados
@@ -79,16 +79,13 @@ export function transformToNodeArray(inputData) {
         value[0] !== null
       ) {
         // El arreglo contiene objetos
-
-        // Cálculo dinámico del nodo para el arreglo de objetos
-        const arrayObjectNodeHeight = 30; // Altura fija para el nodo del arreglo
-        const arrayObjectNodeWidth = (key.length + 5) * 10 + 80; // Ancho dinámico basado en la longitud de la clave
+        let nestedNodeDimention = calculateNestedNodeDimensions(key);
 
         let arrayObjectNode = {
           id: uuidv4(),
-          height: arrayObjectNodeHeight, // Altura fija o dinámica
-          width: arrayObjectNodeWidth, // Ancho dinámico
-          type: "ArrayObject",
+          height: nestedNodeDimention.height, // Altura fija o dinámica
+          width: nestedNodeDimention.width, // Ancho dinámico
+          type: typoData ?? "Array",
           data: { name: key },
           parentId: mainNode.id,
         };
@@ -97,19 +94,16 @@ export function transformToNodeArray(inputData) {
 
         // Crear un nodo para cada objeto dentro del arreglo
         value.forEach((element) => {
-          processObject(element, arrayObjectNode.id);
+          processObject(element, arrayObjectNode.id, "ElementArray");
         });
       } else {
         // El arreglo contiene elementos primitivos
-
-        // Cálculo dinámico del nodo para el arreglo
-        const arrayNodeHeight = 30; // Altura fija para el nodo del arreglo
-        const arrayNodeWidth = (key.length + 5) * 10 + 80; // Ancho dinámico basado en la longitud de la clave
+        let nestedNodeDimention = calculateNestedNodeDimensions(key);
 
         let arrayNode = {
           id: uuidv4(),
-          height: arrayNodeHeight, // Altura fija o dinámica
-          width: arrayNodeWidth, // Ancho dinámico
+          height: nestedNodeDimention.height, // Altura fija o dinámica
+          width: nestedNodeDimention.width, // Ancho dinámico
           type: "Array",
           data: { name: key },
           parentId: mainNode.id,
@@ -120,12 +114,14 @@ export function transformToNodeArray(inputData) {
         // Crear un nodo para cada elemento del arreglo
         value.forEach((element) => {
           // Cálculo dinámico del nodo para cada elemento del arreglo
-          const elementNodeWidth = (element.toString().length + 5) * 10 + 80; // Ancho dinámico basado en la longitud del valor
+          let nestedNodeDimention = calculateNestedNodeDimensions(
+            element.toString()
+          );
 
           let elementNode = {
             id: uuidv4(),
-            height: 30, // Altura fija o dinámica
-            width: elementNodeWidth, // Ancho dinámico
+            height: nestedNodeDimention.height, // Altura fija o dinámica
+            width: nestedNodeDimention.width, // Ancho dinámico
             type: "ElementArray",
             data: { value: element },
             parentId: arrayNode.id,

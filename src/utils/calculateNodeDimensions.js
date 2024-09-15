@@ -29,3 +29,13 @@ export function calculateNodeDimensions(nodeData) {
     height: calculatedHeight,
   };
 }
+
+export function calculateNestedNodeDimensions(key) {
+  const nestedNodeHeight = 30; // Altura fija para el nodo intermedio
+  const nestedNodeWidth = (key.length + 5) * 10 + 100; // Ancho basado en la longitud de la clave
+  // Retorna un objeto con el ancho y la altura calculados
+  return {
+    width: nestedNodeWidth,
+    height: nestedNodeHeight,
+  };
+}
