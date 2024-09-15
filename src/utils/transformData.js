@@ -73,9 +73,14 @@ export function transformToNodeArray(inputData) {
 
     // Procesar arreglos anidados
     nestedArrays.forEach(({ key, value }) => {
+      console.log("key -> ", key);
+      console.log("type key -> ", typeof key);
+      console.log("value -> ", value);
+      console.log("typeof value -> ", typeof value);
+
       // Verificar si el arreglo contiene elementos
       if (value.length > 0) {
-        // Crear un nodo para representar el array
+        // Crear un nodo para representar el array principal
         let nestedNodeDimention = calculateNestedNodeDimensions(key);
         let arrayNode = {
           id: uuidv4(),
@@ -91,8 +96,63 @@ export function transformToNodeArray(inputData) {
         // Iterar sobre los elementos del array
         value.forEach((element) => {
           // Si el elemento es un objeto
-          if (typeof element === "object" && element !== null) {
+          if (
+            typeof element === "object" &&
+            !Array.isArray(element) &&
+            element !== null
+          ) {
             processObject(element, arrayNode.id, "ObjectObject");
+          }
+          // Si el elemento es un array anidado
+          else if (Array.isArray(element)) {
+            let nestedArrayNodeDimention =
+              calculateNestedNodeDimensions("Array");
+
+            let nestedArrayNode = {
+              id: uuidv4(),
+              height: nestedArrayNodeDimention.height,
+              width: nestedArrayNodeDimention.width,
+              type: "Array",
+              data: { name: "Array" }, // Puedes nombrar el array anidado según corresponda
+              parentId: arrayNode.id,
+            };
+
+            nodeArray.push(nestedArrayNode);
+
+            // Procesar cada elemento dentro del array anidado
+            element.forEach((nestedElement) => {
+              if (
+                typeof nestedElement === "object" &&
+                !Array.isArray(nestedElement) &&
+                nestedElement !== null
+              ) {
+                processObject(
+                  nestedElement,
+                  nestedArrayNode.id,
+                  "ObjectObject"
+                );
+              }
+              // Si el elemento es un valor primitivo dentro del array anidado
+              else if (
+                typeof nestedElement === "string" ||
+                typeof nestedElement === "number"
+              ) {
+                let nestedElementDimention = calculateNestedNodeDimensions(
+                  nestedElement.toString()
+                );
+
+                let nestedElementNode = {
+                  id: uuidv4(),
+                  height: nestedElementDimention.height,
+                  width: nestedElementDimention.width,
+                  type: "ElementArray",
+                  data: { value: nestedElement },
+                  parentId: nestedArrayNode.id,
+                };
+
+                nodeArray.push(nestedElementNode);
+              }
+            });
           }
           // Si el elemento es un valor primitivo (string o número)
           else if (typeof element === "string" || typeof element === "number") {

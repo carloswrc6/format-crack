@@ -1,37 +1,24 @@
 {
-  "squadName": "Super hero squad",
-  "objetou": {
+  "1valorPrimitivo": "valorPrimitivo",
+  "2valorPrimitivo": "valorPrimitivo",
+  "3valorPrimitivo": "valorPrimitivo",
+  "objeto": {
     "name": "Eternal Flame",
     "age": 1000000,
     "secretIdentity": "Unknown",
-    "powers": [
-      "Immortality",
-      "Heat Immunity",
-      "Inferno",
-      "Teleportation",
-      "Interdimensional travel"
+    "arrayx": [
+      { "1": 111, "12": 111, "1w": 111 },
+      "222",
+      "333",
+      4,
+      [
+        { "1": 111, "12": 111, "123": 111 },
+        "222",
+        "333",
+        4,
+        [{ "1": 1, "12": 1 }, "2", 3, 4]
+      ]
     ]
   },
-  "members": [
-    {
-      "name": "Molecule Man",
-      "age": 29,
-      "secretIdentity": "Dan Jukes",
-      "otroObject": {
-        "name": "Molecule Man",
-        "age": 29,
-        "secretIdentity": "Dan Jukes"
-      }
-    },
-    {
-      "name": "Madame Uppercut",
-      "age": 39,
-      "secretIdentity": "Jane Wilson",
-      "powers": [
-        "Million tonne punch",
-        "Damage resistance",
-        "Superhuman reflexes"
-      ]
-    }
-  ]
+  "arrayx": [{ "1": 111 }, "222", "333", 4]
 }
