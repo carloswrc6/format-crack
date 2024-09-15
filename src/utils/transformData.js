@@ -73,33 +73,10 @@ export function transformToNodeArray(inputData) {
 
     // Procesar arreglos anidados
     nestedArrays.forEach(({ key, value }) => {
-      if (
-        value.length > 0 &&
-        typeof value[0] === "object" &&
-        value[0] !== null
-      ) {
-        // El arreglo contiene objetos
+      // Verificar si el arreglo contiene elementos
+      if (value.length > 0) {
+        // Crear un nodo para representar el array
         let nestedNodeDimention = calculateNestedNodeDimensions(key);
-
-        let arrayObjectNode = {
-          id: uuidv4(),
-          height: nestedNodeDimention.height, // Altura fija o dinámica
-          width: nestedNodeDimention.width, // Ancho dinámico
-          type: typoData ?? "Array",
-          data: { name: key },
-          parentId: mainNode.id,
-        };
-
-        nodeArray.push(arrayObjectNode);
-
-        // Crear un nodo para cada objeto dentro del arreglo
-        value.forEach((element) => {
-          processObject(element, arrayObjectNode.id, "ElementArray");
-        });
-      } else {
-        // El arreglo contiene elementos primitivos
-        let nestedNodeDimention = calculateNestedNodeDimensions(key);
-
         let arrayNode = {
           id: uuidv4(),
           height: nestedNodeDimention.height, // Altura fija o dinámica
@@ -111,24 +88,32 @@ export function transformToNodeArray(inputData) {
 
         nodeArray.push(arrayNode);
 
-        // Crear un nodo para cada elemento del arreglo
+        // Iterar sobre los elementos del array
         value.forEach((element) => {
-          // Cálculo dinámico del nodo para cada elemento del arreglo
-          let nestedNodeDimention = calculateNestedNodeDimensions(
-            element.toString()
-          );
+          // Si el elemento es un objeto
+          if (typeof element === "object" && element !== null) {
+            processObject(element, arrayNode.id, "ObjectObject");
+          }
+          // Si el elemento es un valor primitivo (string o número)
+          else if (typeof element === "string" || typeof element === "number") {
+            let nestedNodeDimention = calculateNestedNodeDimensions(
+              element.toString()
+            );
 
-          let elementNode = {
-            id: uuidv4(),
-            height: nestedNodeDimention.height, // Altura fija o dinámica
-            width: nestedNodeDimention.width, // Ancho dinámico
-            type: "ElementArray",
-            data: { value: element },
-            parentId: arrayNode.id,
-          };
+            let elementNode = {
+              id: uuidv4(),
+              height: nestedNodeDimention.height, // Altura fija o dinámica
+              width: nestedNodeDimention.width, // Ancho dinámico
+              type: "ElementArray",
+              data: { value: element },
+              parentId: arrayNode.id,
+            };
 
-          nodeArray.push(elementNode);
+            nodeArray.push(elementNode);
+          }
         });
+      } else {
+        console.log("El arreglo está vacío");
       }
     });
   }
