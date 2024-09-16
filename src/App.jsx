@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Canvas, Node } from "reaflow";
 import "./App.css";
 import data from "../src/mocks/archivoJson.json";
@@ -6,6 +6,7 @@ import { generateLinks } from "../src/utils/generateLink";
 import { transformToNodeArray } from "../src/utils/transformData";
 import CustomNode from "./components/CustomNode";
 import TextareaWithLineNumbers from "./components/TextareaLineNumbers";
+import { validateAndParseJson } from "../src/utils/validateJson";
 const App = () => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
@@ -35,6 +36,19 @@ const App = () => {
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
   };
+
+  // Efecto para ver cuando content cambia
+  useEffect(() => {
+    console.log("CONTENIDO actualizado app.jsx -> ", content);
+    const result = validateAndParseJson(content);
+    if (result.status) {
+      console.log("JSON válido:", result.json);
+      setNodes(transformToNodeArray(result.json));
+      setEdges(generateLinks(nodes));
+    } else {
+      console.log("Error:", result.error);
+    }
+  }, [content]);
 
   return (
     <div className="App">
