@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Canvas, Node } from "reaflow";
 import "./App.css";
 import data from "../src/mocks/archivoJson.json";
@@ -12,34 +12,70 @@ const App = () => {
   console.log(" EDGES -> ", JSON.stringify(edges));
   // se debe de convertir el array de objetos a algo plano
   // para meter todo eso dentro de data
+  const [width, setWidth] = useState(50); // El ancho inicial de la primera sección en porcentaje
+  const resizerRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  const handleMouseMove = (e) => {
+    // Calcula el nuevo ancho en porcentaje
+    const newWidth = (e.clientX / window.innerWidth) * 100;
+    if (newWidth > 5 && newWidth < 95) {
+      setWidth(newWidth);
+    }
+  };
+
+  const handleMouseUp = () => {
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
+
   return (
-    <div
-      id="canvas-content"
-      style={{
-        position: "absolute",
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-      }}
-    >
-      <Canvas
-        // maxWidth={"100vw"}
-        // maxHeight={"100vh"}
-        // Para mostrar por direccion
-        direction="RIGHT"
-        // Para evitar el click y que salgan lineas
-        readonly={true}
-        // Para centrar la img
-        fit={true}
-        // Para mover con el mouse
-        panType="drag"
-        nodes={nodes}
-        edges={edges}
-        node={<Node>{(event) => <CustomNode event={event} />}</Node>}
-        onLayoutChange={(layout) => console.log("Cambio el Layout", layout)}
-      />
+    <div className="App">
+      <div
+        className="section1"
+        style={{
+          width: `${width}%`,
+          backgroundColor: "#f0f0f0",
+          padding: "20px",
+        }}
+      >
+        <h2>Sección 1</h2>
+        <p>Contenido de la primera sección</p>
+      </div>
+      <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
+
+      <div
+        // className="section2"
+        id="canvas-content"
+        style={{
+          width: `${100 - width}%`,
+          padding: "20px",
+        }}
+      >
+        <Canvas
+          // maxWidth={"100vw"}
+          // maxHeight={"100vh"}
+          // Para mostrar por direccion
+          direction="RIGHT"
+          // Para evitar el click y que salgan lineas
+          readonly={true}
+          // Para centrar la img
+          fit={true}
+          // Para mover con el mouse
+          panType="drag"
+          nodes={nodes}
+          edges={edges}
+          node={<Node>{(event) => <CustomNode event={event} />}</Node>}
+          onLayoutChange={(layout) => console.log("Cambio el Layout", layout)}
+        />
+      </div>
     </div>
   );
 };
+
 export default App;
