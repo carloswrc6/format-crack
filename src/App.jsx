@@ -5,6 +5,7 @@ import data from "../src/mocks/archivoJson.json";
 import { generateLinks } from "../src/utils/generateLink";
 import { transformToNodeArray } from "../src/utils/transformData";
 import CustomNode from "./components/CustomNode";
+import TextareaWithLineNumbers from "./components/TextareaLineNumbers";
 const App = () => {
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
@@ -24,7 +25,7 @@ const App = () => {
   const handleMouseMove = (e) => {
     // Calcula el nuevo ancho en porcentaje
     const newWidth = (e.clientX / window.innerWidth) * 100;
-    if (newWidth > 5 && newWidth < 95) {
+    if (newWidth > 40 && newWidth < 95) {
       setWidth(newWidth);
     }
   };
@@ -44,8 +45,9 @@ const App = () => {
           padding: "20px",
         }}
       >
-        <h2>Sección 1</h2>
-        <p>Contenido de la primera sección</p>
+        {/* <h2>Sección 1</h2> */}
+        {/* <p>Contenido de la primera sección</p> */}
+        <TextareaWithLineNumbers></TextareaWithLineNumbers>
       </div>
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
 
