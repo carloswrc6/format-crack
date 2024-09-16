@@ -7,6 +7,7 @@ import { transformToNodeArray } from "../src/utils/transformData";
 import CustomNode from "./components/CustomNode";
 import TextareaWithLineNumbers from "./components/TextareaLineNumbers";
 const App = () => {
+  const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
   console.log(" NODES -> ", JSON.stringify(nodes));
@@ -42,12 +43,15 @@ const App = () => {
         style={{
           width: `${width}%`,
           backgroundColor: "#f0f0f0",
-          padding: "20px",
+          // padding: "20px",
         }}
       >
         {/* <h2>Sección 1</h2> */}
         {/* <p>Contenido de la primera sección</p> */}
-        <TextareaWithLineNumbers></TextareaWithLineNumbers>
+        <TextareaWithLineNumbers
+          content={content}
+          setContent={setContent}
+        ></TextareaWithLineNumbers>
       </div>
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
 
@@ -56,9 +60,11 @@ const App = () => {
         id="canvas-content"
         style={{
           width: `${100 - width}%`,
-          padding: "20px",
+          // padding: "20px",
         }}
       >
+        {/* <h2>Procesamiento de Información</h2> */}
+        {/* <p>Contenido: {content}</p> */}
         <Canvas
           // maxWidth={"100vw"}
           // maxHeight={"100vh"}
