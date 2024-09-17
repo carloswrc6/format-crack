@@ -61,7 +61,7 @@ const App = () => {
           // padding: "20px",
         }}
       >
-        <MonacoJSONEditor></MonacoJSONEditor>
+        <MonacoJSONEditor content={content} onContentChange={setContent} />
       </div>
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
 

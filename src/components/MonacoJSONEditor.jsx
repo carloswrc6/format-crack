@@ -1,43 +1,17 @@
 import React, { useRef, useEffect } from "react";
 import * as monaco from "monaco-editor";
 
-const MonacoJSONEditor = () => {
+const MonacoJSONEditor = ({ content, onContentChange }) => {
   const editorRef = useRef(null);
-  const monacoEditorRef = useRef(null); // Para mantener referencia del editor de Monaco
+  const monacoEditorRef = useRef(null); // Mantener la referencia del editor de Monaco
 
   useEffect(() => {
-    if (editorRef.current) {
+    if (editorRef.current && !monacoEditorRef.current) {
+      // Crear el editor una sola vez
       monacoEditorRef.current = monaco.editor.create(editorRef.current, {
-        value: JSON.stringify(
-          {
-            "1valorPrimitivo": "valorPrimitivo",
-            "2valorPrimitivo": "valorPrimitivo",
-            "3valorPrimitivo": "valorPrimitivo",
-            objeto: {
-              name: "Eternal Flame",
-              age: 1000000,
-              secretIdentity: "Unknown",
-              arrays: [
-                { 1: 111, 12: 111, "1v": 111 },
-                "222",
-                "333",
-                4,
-                [
-                  { 1: 111, 12: 111, 123: 111 },
-                  "222",
-                  "333",
-                  4,
-                  [{ 1: 1, 12: 1 }, "2", 3, 4],
-                ],
-              ],
-            },
-            arrayx: [["1", 111], "222", "333", 4],
-          },
-          null,
-          2
-        ),
+        value: content || "", // Usar el contenido que viene de props
         language: "json",
-        theme: "vs-ligth",
+        theme: "vs-dark",
         automaticLayout: true,
         minimap: { enabled: false },
         fontSize: 14,
@@ -46,16 +20,36 @@ const MonacoJSONEditor = () => {
         roundedSelection: false,
         readOnly: false,
         cursorStyle: "line",
-        wordWrap: "off",
+        wordWrap: "on",
+      });
+
+      // Escuchar cambios en el contenido del editor
+      monacoEditorRef.current.onDidChangeModelContent(() => {
+        const newValue = monacoEditorRef.current.getValue();
+        if (onContentChange) {
+          onContentChange(newValue); // Notificar cambios al componente principal
+        }
       });
     }
 
+    // Limpiar recursos cuando el componente se desmonte
     return () => {
       if (monacoEditorRef.current) {
         monacoEditorRef.current.dispose(); // Liberar recursos correctamente
+        monacoEditorRef.current = null; // Resetear la referencia
       }
     };
   }, []);
+
+  // Actualizar el valor del editor cuando cambie el prop `content`
+  useEffect(() => {
+    if (monacoEditorRef.current) {
+      const currentValue = monacoEditorRef.current.getValue();
+      if (content !== currentValue) {
+        monacoEditorRef.current.setValue(content || "");
+      }
+    }
+  }, [content]);
 
   return (
     <div>
