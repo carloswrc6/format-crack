@@ -43,8 +43,9 @@ const App = () => {
     const result = validateAndParseJson(content);
     if (result.status) {
       console.log("JSON válido:", result.json);
-      setNodes(transformToNodeArray(result.json));
-      setEdges(generateLinks(nodes));
+      let x = transformToNodeArray(result.json);
+      setNodes(x);
+      setEdges(generateLinks(x));
     } else {
       console.log("Error:", result.error);
     }

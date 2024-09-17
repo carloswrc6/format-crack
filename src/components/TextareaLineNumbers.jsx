@@ -51,7 +51,9 @@ const TextareaWithLineNumbers = ({ content, setContent }) => {
           outline: "none",
           resize: "none",
           overflowY: "hidden",
-          lineHeight: "1.5",
+          lineHeight: "1.46",
+          whiteSpace: "nowrap",
+          wordWrap: "normal",
         }}
         rows={countLines(content)}
       />
