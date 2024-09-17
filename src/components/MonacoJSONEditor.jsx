@@ -37,16 +37,16 @@ const MonacoJSONEditor = () => {
           2
         ),
         language: "json",
-        theme: "vs-dark",
+        theme: "vs-ligth",
         automaticLayout: true,
-        minimap: { enabled: true },
+        minimap: { enabled: false },
         fontSize: 14,
         lineNumbers: "on",
         scrollBeyondLastLine: false,
         roundedSelection: false,
         readOnly: false,
         cursorStyle: "line",
-        wordWrap: "on",
+        wordWrap: "off",
       });
     }
 
@@ -59,7 +59,7 @@ const MonacoJSONEditor = () => {
 
   return (
     <div>
-      <div ref={editorRef} style={{ height: "400px", width: "100%" }} />
+      <div ref={editorRef} style={{ height: "100vh", width: "100%" }} />
     </div>
   );
 };

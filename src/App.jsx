@@ -5,8 +5,8 @@ import data from "../src/mocks/archivoJson.json";
 import { generateLinks } from "../src/utils/generateLink";
 import { transformToNodeArray } from "../src/utils/transformData";
 import CustomNode from "./components/CustomNode";
-import TextareaWithLineNumbers from "./components/TextareaLineNumbers";
 import { validateAndParseJson } from "../src/utils/validateJson";
+import MonacoJSONEditor from "./components/MonacoJSONEditor";
 const App = () => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
@@ -61,12 +61,7 @@ const App = () => {
           // padding: "20px",
         }}
       >
-        {/* <h2>Sección 1</h2> */}
-        {/* <p>Contenido de la primera sección</p> */}
-        <TextareaWithLineNumbers
-          content={content}
-          setContent={setContent}
-        ></TextareaWithLineNumbers>
+        <MonacoJSONEditor></MonacoJSONEditor>
       </div>
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
 

@@ -12,7 +12,7 @@
 }
 
 .resizer {
-  width: 10px;
+  min-width: 5px;
   background-color: #942626;
   cursor: col-resize;
   height: 100%;
