@@ -20,7 +20,7 @@ const MonacoJSONEditor = ({ content, onContentChange }) => {
         roundedSelection: false,
         readOnly: false,
         cursorStyle: "line",
-        wordWrap: "on",
+        wordWrap: "off",
       });
 
       // Escuchar cambios en el contenido del editor

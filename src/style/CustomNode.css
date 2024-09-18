@@ -1,0 +1,17 @@
+.custom-node-container {
+  padding-left: 17px;
+  text-align: center;
+}
+
+.custom-node-title {
+  color: white;
+  text-align: left;
+}
+
+.key {
+  color: aqua;
+}
+
+.value {
+  color: black;
+}

@@ -7,89 +7,52 @@ import { transformToNodeArray } from "../src/utils/transformData";
 import CustomNode from "./components/CustomNode";
 import { validateAndParseJson } from "../src/utils/validateJson";
 import MonacoJSONEditor from "./components/MonacoJSONEditor";
+import useResize from "../src/hooks/useRecize"; // Hook personalizado
+
 const App = () => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
-  console.log(" NODES -> ", JSON.stringify(nodes));
-  console.log(" EDGES -> ", JSON.stringify(edges));
-  // se debe de convertir el array de objetos a algo plano
-  // para meter todo eso dentro de data
-  const [width, setWidth] = useState(50); // El ancho inicial de la primera sección en porcentaje
-  const resizerRef = useRef(null);
 
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
+  // Custom hook for resizing
+  const [width, resizerRef, handleMouseDown] = useResize(30, 25, 85);
 
-  const handleMouseMove = (e) => {
-    // Calcula el nuevo ancho en porcentaje
-    const newWidth = (e.clientX / window.innerWidth) * 100;
-    if (newWidth > 40 && newWidth < 95) {
-      setWidth(newWidth);
-    }
-  };
-
-  const handleMouseUp = () => {
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
-
-  // Efecto para ver cuando content cambia
+  // Efecto para procesar el JSON del editor cuando cambia el contenido
   useEffect(() => {
-    console.log("CONTENIDO actualizado app.jsx -> ", content);
     const result = validateAndParseJson(content);
     if (result.status) {
-      console.log("JSON válido:", result.json);
-      let x = transformToNodeArray(result.json);
-      setNodes(x);
-      setEdges(generateLinks(x));
+      const updatedNodes = transformToNodeArray(result.json);
+      setNodes(updatedNodes);
+      setEdges(generateLinks(updatedNodes));
     } else {
-      console.log("Error:", result.error);
+      console.error("Error:", result.error);
     }
   }, [content]);
 
   return (
     <div className="App">
+      {/* Editor */}
       <div
         className="section1"
-        style={{
-          width: `${width}%`,
-          backgroundColor: "#f0f0f0",
-          // padding: "20px",
-        }}
+        style={{ width: `${width}%`, backgroundColor: "#f0f0f0" }}
       >
         <MonacoJSONEditor content={content} onContentChange={setContent} />
       </div>
+
+      {/* Resizer */}
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
 
-      <div
-        // className="section2"
-        id="canvas-content"
-        style={{
-          width: `${100 - width}%`,
-          // padding: "20px",
-        }}
-      >
-        {/* <h2>Procesamiento de Información</h2> */}
-        {/* <p>Contenido: {content}</p> */}
+      {/* Canvas */}
+      <div id="canvas-content" style={{ width: `${100 - width}%` }}>
         <Canvas
-          // maxWidth={"100vw"}
-          // maxHeight={"100vh"}
-          // Para mostrar por direccion
           direction="RIGHT"
-          // Para evitar el click y que salgan lineas
           readonly={true}
-          // Para centrar la img
           fit={true}
-          // Para mover con el mouse
           panType="drag"
           nodes={nodes}
           edges={edges}
           node={<Node>{(event) => <CustomNode event={event} />}</Node>}
-          onLayoutChange={(layout) => console.log("Cambio el Layout", layout)}
+          onLayoutChange={(layout) => console.log("Layout changed", layout)}
         />
       </div>
     </div>
