@@ -5,7 +5,9 @@
   background-color: #434343;
   background-image: linear-gradient(#434343, #282828);
 }
-
+._container_1ryvh_1._pannable_1ryvh_2 {
+  overflow: hidden !important;
+}
 .section1,
 .section2 {
   height: 100vh;

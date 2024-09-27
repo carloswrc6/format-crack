@@ -8,6 +8,7 @@ import CustomNode from "./components/CustomNode";
 import { validateAndParseJson } from "../src/utils/validateJson";
 import MonacoJSONEditor from "./components/MonacoJSONEditor";
 import useResize from "../src/hooks/useRecize"; // Hook personalizado
+import { Space } from "react-zoomable-ui";
 
 const App = () => {
   const [content, setContent] = useState("");
@@ -43,19 +44,42 @@ const App = () => {
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
 
       {/* Canvas */}
-      <div id="canvas-content" style={{ width: `${100 - width}%` }}>
-        <Canvas
-          direction="RIGHT"
-          readonly={true}
-          fit={true}
-          panType="drag"
-          nodes={nodes}
-          edges={edges}
-          node={<Node>{(event) => <CustomNode event={event} />}</Node>}
-          onLayoutChange={(layout) => console.log("Layout changed", layout)}
-        />
+      <div
+        id="canvas-content"
+        style={{
+          width: `${100 - width}%`,
+          position: "relative",
+        }}
+      >
+        <Space>
+          <Canvas
+            direction="RIGHT"
+            readonly={true}
+            fit={true}
+            // panType="drag"
+            zoom={false}
+            nodes={nodes}
+            edges={edges}
+            node={<Node>{(event) => <CustomNode event={event} />}</Node>}
+            onLayoutChange={(layout) => console.log("Layout changed", layout)}
+          />
+        </Space>
       </div>
     </div>
+
+    // <Space>
+    //   <Canvas
+    //     direction="RIGHT"
+    //     readonly={true}
+    //     fit={true}
+    //     // panType="drag"
+    //     zoom={false}
+    //     nodes={nodes}
+    //     edges={edges}
+    //     node={<Node>{(event) => <CustomNode event={event} />}</Node>}
+    //     onLayoutChange={(layout) => console.log("Layout changed", layout)}
+    //   />
+    // </Space>
   );
 };
 
