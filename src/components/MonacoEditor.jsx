@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import * as monaco from "monaco-editor";
 
-const MonacoJSONEditor = ({ content, onContentChange }) => {
+const MonacoEditor = ({ content, onContentChange }) => {
   const editorRef = useRef(null);
   const monacoEditorRef = useRef(null); // Mantener la referencia del editor de Monaco
 
@@ -53,9 +53,9 @@ const MonacoJSONEditor = ({ content, onContentChange }) => {
 
   return (
     <div>
-      <div ref={editorRef} style={{ height: "100vh", width: "100%" }} />
+      <div ref={editorRef} style={{ height: "100%", width: "100%" }} />
     </div>
   );
 };
 
-export default MonacoJSONEditor;
+export default MonacoEditor;
