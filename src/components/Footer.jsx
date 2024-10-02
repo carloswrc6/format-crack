@@ -5,7 +5,7 @@ import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
 const Footer = () => {
   return (
     <footer>
-      <div class="left-items">
+      <div class="footer-left-items">
         <CustomButton icon={MagnifyingGlassCircleIcon} />
         <CustomButton icon={MagnifyingGlassCircleIcon} text="Valid" />
         <CustomButton icon={MagnifyingGlassCircleIcon} text="Live Transform" />
@@ -14,7 +14,7 @@ const Footer = () => {
           text="Click to Transform"
         />
       </div>
-      <div class="right-items">
+      <div class="footer-right-items">
         <CustomButton text="Nodes:19" />
         <CustomButton icon={MagnifyingGlassCircleIcon} text="Feedback" />
       </div>

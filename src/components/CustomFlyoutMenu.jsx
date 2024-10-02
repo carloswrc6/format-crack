@@ -5,7 +5,7 @@ const CustomFlyoutMenu = ({ title, options, tabOptions }) => {
   return (
     <Popover className="relative inline-block ">
       {/* <Popover className="relative"> */}
-      <PopoverButton className="bg-gray-700 inline-flex items-center px-1.5 gap-x-2 text-sm leading-8 text-white-900">
+      <PopoverButton className="bg-gray-700 hover:bg-gray-800 rounded-sm inline-flex items-center px-1.5 gap-x-2 text-sm leading-8 text-white-900">
         <span>{title}</span>
         <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
       </PopoverButton>

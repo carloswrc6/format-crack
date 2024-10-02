@@ -106,7 +106,7 @@ const callsToAction = [
 const Header = () => {
   return (
     <header>
-      <div class="left-items">
+      <div class="header-left-items">
         {/* img */}
         <CustomSelect options={data}></CustomSelect>
         <CustomFlyoutMenu title={"File"} options={file}></CustomFlyoutMenu>
@@ -117,15 +117,16 @@ const Header = () => {
         ></CustomFlyoutMenu>
         <CustomFlyoutMenu title={"Tools"} options={tools}></CustomFlyoutMenu>
       </div>
-      <div class="right-items">
+      <div class="header-right-items">
         <CustomButton
           icon={MagnifyingGlassCircleIcon}
           text="Unlock advanced features"
+          className="py-2"
         />
-        <Input icon={MagnifyingGlassCircleIcon} text="Q"></Input>
-        <CustomButton icon={MagnifyingGlassCircleIcon} />
-        <CustomButton icon={MagnifyingGlassCircleIcon} />
-        <CustomButton icon={MagnifyingGlassCircleIcon} />
+        <Input icon={MagnifyingGlassCircleIcon} text=""></Input>
+        <CustomButton icon={MagnifyingGlassCircleIcon} className="py-2" />
+        <CustomButton icon={MagnifyingGlassCircleIcon} className="py-2" />
+        <CustomButton icon={MagnifyingGlassCircleIcon} className="py-2" />
       </div>
     </header>
   );

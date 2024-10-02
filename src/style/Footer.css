@@ -2,13 +2,12 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 30px 5px 30px;
+  padding: 0px 15px 0px 15px;
   background-color: #374151;
   color: white;
 }
 
-.left-items,
-.right-items {
+.footer-left-items,
+.footer-right-items {
   display: flex;
-  gap: 0px;
 }

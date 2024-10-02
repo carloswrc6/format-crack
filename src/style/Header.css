@@ -3,14 +3,14 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 5px 30px 5px 30px;
-  background-color: #333;
-  /* background-color: #374151; */
+  /* background-color: #333; */
+  background-color: #374151;
   color: white;
   gap: 15px;
 }
 
-.left-items,
-.right-items {
+.header-left-items,
+.header-right-items {
   display: flex;
   align-items: center;
   gap: 10px !important;
