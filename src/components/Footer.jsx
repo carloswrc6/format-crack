@@ -1,19 +1,25 @@
-import "../style/Header.css";
+import "../style/Footer.css";
+import CustomButton from "./CustomButton";
+import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
 
-const Header = () => {
+const Footer = () => {
   return (
-    <header>
+    <footer>
       <div class="left-items">
-        <button>Izquierda 1</button>
-        <button>Izquierda 2</button>
+        <CustomButton icon={MagnifyingGlassCircleIcon} />
+        <CustomButton icon={MagnifyingGlassCircleIcon} text="Valid" />
+        <CustomButton icon={MagnifyingGlassCircleIcon} text="Live Transform" />
+        <CustomButton
+          icon={MagnifyingGlassCircleIcon}
+          text="Click to Transform"
+        />
       </div>
-      <div class="center-text">Este es el texto central del Header</div>
       <div class="right-items">
-        <button>Derecha 1</button>
-        <button>Derecha 2</button>
+        <CustomButton text="Nodes:19" />
+        <CustomButton icon={MagnifyingGlassCircleIcon} text="Feedback" />
       </div>
-    </header>
+    </footer>
   );
 };
 
-export default Header;
+export default Footer;
