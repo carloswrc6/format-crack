@@ -109,7 +109,11 @@ const Header = () => {
       <div class="header-left-items">
         {/* img */}
         <CustomSelect options={data}></CustomSelect>
-        <CustomFlyoutMenu title={"File"} options={file}></CustomFlyoutMenu>
+        <CustomFlyoutMenu
+          title={"File"}
+          options={file}
+          className="max-w-40"
+        ></CustomFlyoutMenu>
         <CustomFlyoutMenu
           title={"View"}
           options={view}

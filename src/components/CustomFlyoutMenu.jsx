@@ -1,7 +1,7 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-const CustomFlyoutMenu = ({ title, options, tabOptions }) => {
+const CustomFlyoutMenu = ({ title, options, tabOptions, className = "" }) => {
   return (
     <Popover className="relative inline-block ">
       {/* <Popover className="relative"> */}
@@ -12,9 +12,11 @@ const CustomFlyoutMenu = ({ title, options, tabOptions }) => {
 
       <PopoverPanel
         transition
-        className="bg-sky-700 absolute left-0 z-10 mt-2 w-screen max-w-60 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+        className={`bg-sky-700 absolute left-0 z-10 mt-2 w-screen max-w-60 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in ${className}`}
       >
-        <div className="w-screen max-w-60 flex-auto overflow-hidden rounded-md bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
+        <div
+          className={`w-screen max-w-60 flex-auto overflow-hidden rounded-md bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5 ${className}`}
+        >
           <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
             {tabOptions &&
               tabOptions.length > 0 &&

@@ -5,6 +5,11 @@ footer {
   padding: 0px 15px 0px 15px;
   background-color: #374151;
   color: white;
+  position: fixed; /* Lo fija en la pantalla */
+  bottom: 0; /* Lo coloca en la parte inferior */
+  left: 0; /* Alineación izquierda */
+  width: 100%; /* Para que ocupe todo el ancho de la pantalla */
+  z-index: 1000; /* Asegura que esté por encima de otros elementos si es necesario */
 }
 
 .footer-left-items,

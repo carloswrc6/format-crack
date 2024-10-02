@@ -32,10 +32,7 @@ const Main = () => {
 
   return (
     <div className="content">
-      <div
-        className="monaco-editor"
-        style={{ width: `${width}%`, backgroundColor: "#f0f0f0" }}
-      >
+      <div className="monaco-editor" style={{ width: `${width}%` }}>
         <MonacoEditor content={content} onContentChange={setContent} />
       </div>
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />

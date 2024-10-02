@@ -1,11 +1,17 @@
 .content {
   display: flex;
   flex: 1;
-  max-height: 90vh;
+  max-height: 100vh;
+  padding-top: 42px;
 }
 
+@media (max-width: 768px) {
+  .content {
+    padding-top: 75px;
+  }
+}
 .monaco-editor {
-  min-height: 84vh;
+  min-height: 80vh;
 }
 
 ._container_1ryvh_1._pannable_1ryvh_2 {
