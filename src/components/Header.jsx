@@ -1,8 +1,10 @@
 import "../style/Header.css";
 import Input from "./Input";
 import CustomButton from "./CustomButton";
-import Select from "./CustomSelect";
+import CustomSelect from "./CustomSelect";
 import CustomFlyoutMenu from "./CustomFlyoutMenu";
+import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
+
 import { cmbs } from "../constant/constant";
 import {
   ChartPieIcon,
@@ -106,7 +108,7 @@ const Header = () => {
     <header>
       <div class="left-items">
         {/* img */}
-        <Select options={data}></Select>
+        <CustomSelect options={data}></CustomSelect>
         <CustomFlyoutMenu title={"File"} options={file}></CustomFlyoutMenu>
         <CustomFlyoutMenu
           title={"View"}
@@ -116,10 +118,14 @@ const Header = () => {
         <CustomFlyoutMenu title={"Tools"} options={tools}></CustomFlyoutMenu>
       </div>
       <div class="right-items">
-        {/* <Input></Input> */}
-        {/* <CustomButton></CustomButton> */}
-        {/* <CustomButton></CustomButton> */}
-        {/* <CustomButton></CustomButton> */}
+        <CustomButton
+          icon={MagnifyingGlassCircleIcon}
+          text="Unlock advanced features"
+        />
+        <Input icon={MagnifyingGlassCircleIcon} text="Q"></Input>
+        <CustomButton icon={MagnifyingGlassCircleIcon} />
+        <CustomButton icon={MagnifyingGlassCircleIcon} />
+        <CustomButton icon={MagnifyingGlassCircleIcon} />
       </div>
     </header>
   );

@@ -5,14 +5,14 @@ const CustomFlyoutMenu = ({ title, options, tabOptions }) => {
   return (
     <Popover className="relative inline-block ">
       {/* <Popover className="relative"> */}
-      <PopoverButton className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-white-900">
+      <PopoverButton className="bg-gray-700 inline-flex items-center px-1.5 gap-x-2 text-sm leading-8 text-white-900">
         <span>{title}</span>
         <ChevronDownIcon aria-hidden="true" className="h-5 w-5" />
       </PopoverButton>
 
       <PopoverPanel
         transition
-        className="absolute left-0 z-10 mt-2 w-screen max-w-60 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
+        className="bg-sky-700 absolute left-0 z-10 mt-2 w-screen max-w-60 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
       >
         <div className="w-screen max-w-60 flex-auto overflow-hidden rounded-md bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
           <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50">
