@@ -41,9 +41,16 @@ const Main = () => {
         style={{
           width: `${100 - width}%`,
           position: "relative",
+          height: "100%", // Asegura que el contenedor ocupe toda la altura disponible
         }}
       >
-        <Space>
+        <Space
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+          centerContent={true} // Centra el contenido dentro del Space
+        >
           <Canvas
             direction="RIGHT"
             readonly={true}
@@ -53,6 +60,8 @@ const Main = () => {
             edges={edges}
             node={<Node>{(event) => <CustomNode event={event} />}</Node>}
             onLayoutChange={(layout) => console.log("Layout changed", layout)}
+            maxWidth={2000} // Ajusta este valor según tus necesidades
+            maxHeight={650} // Ajusta este valor según tus necesidades
           />
         </Space>
       </div>

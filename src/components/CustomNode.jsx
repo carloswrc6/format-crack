@@ -23,7 +23,7 @@ const CustomNode = ({ event }) => {
   };
 
   return (
-    <foreignObject height={event.height * 2} width={event.width} x={0} y={-20}>
+    <foreignObject height={event.height * 2} width={event.width} x={0} y={1}>
       <div className="custom-node-container">
         <h3 className="custom-node-title">
           {renderAttributes(event.node.data)}
