@@ -3,26 +3,37 @@ import Input from "./Input";
 import CustomButton from "./CustomButton";
 import CustomSelect from "./CustomSelect";
 import CustomFlyoutMenu from "./CustomFlyoutMenu";
-import { MagnifyingGlassCircleIcon } from "@heroicons/react/20/solid";
-
 import { cmbs } from "../constant/constant";
-import {
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  PlayCircleIcon,
-  PhoneIcon,
-  CloudArrowUpIcon,
-  CloudArrowDownIcon,
-} from "@heroicons/react/24/outline";
+import { PlayCircleIcon, PhoneIcon } from "@heroicons/react/24/outline";
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
+import SavingsIcon from "@mui/icons-material/Savings";
+import SearchIcon from "@mui/icons-material/Search";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import GetAppIcon from "@mui/icons-material/GetApp";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import FilterNoneIcon from "@mui/icons-material/FilterNone";
+import GpsFixedIcon from "@mui/icons-material/GpsFixed";
+import TextSnippetIcon from "@mui/icons-material/TextSnippet";
+import DataObjectIcon from "@mui/icons-material/DataObject";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CodeIcon from "@mui/icons-material/Code";
+import ShuffleIcon from "@mui/icons-material/Shuffle";
+import CompareIcon from "@mui/icons-material/Compare";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import PublicIcon from "@mui/icons-material/Public";
 const data = cmbs.typeFile;
 const file = [
   {
     name: "Import",
-    icon: CloudArrowUpIcon,
+    icon: UploadFileIcon,
   },
   {
     name: "Export",
-    icon: CloudArrowDownIcon,
+    icon: GetAppIcon,
   },
 ];
 const view = [
@@ -30,19 +41,19 @@ const view = [
     name: "Rotate Layout",
     description: "Get a better understanding of your traffic",
     href: "#",
-    icon: ChartPieIcon,
+    icon: AccountTreeIcon,
   },
   {
     name: "Collapse Graph",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: FilterNoneIcon,
   },
   {
     name: "Focus to first node",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: GpsFixedIcon,
   },
 ];
 
@@ -51,50 +62,55 @@ const tools = [
     name: "JSON Query (jq)",
     description: "Get a better understanding of your traffic",
     href: "#",
-    icon: ChartPieIcon,
+    icon: ManageSearchIcon,
   },
   {
     name: "JSON Schema",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: DataObjectIcon,
   },
   {
     name: "JSON Path",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
-  },
-
-  {
-    name: "AI-Powered Filter",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: FilterAltIcon,
   },
   {
-    name: "Decide JWT",
+    name: "Decode JWT",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: CodeIcon,
   },
   {
     name: "Generate Type",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: TextSnippetIcon,
   },
   {
     name: "Randomize Data",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: ShuffleIcon,
+  },
+  {
+    name: "REST Client",
+    description: "Speak directly to your customers",
+    href: "#",
+    icon: PublicIcon,
+  },
+  {
+    name: "AI-Powered Filter",
+    description: "Speak directly to your customers",
+    href: "#",
+    icon: AutoFixHighIcon,
   },
   {
     name: "Compare Data",
     description: "Speak directly to your customers",
     href: "#",
-    icon: CursorArrowRaysIcon,
+    icon: CompareIcon,
   },
 ];
 
@@ -109,28 +125,30 @@ const Header = () => {
       <div class="header-left-items">
         {/* img */}
         <CustomSelect options={data}></CustomSelect>
-        <CustomFlyoutMenu
-          title={"File"}
-          options={file}
-          className="max-w-40"
-        ></CustomFlyoutMenu>
+        <CustomFlyoutMenu title={"File"} options={file}></CustomFlyoutMenu>
         <CustomFlyoutMenu
           title={"View"}
           options={view}
           tabOptions={callsToAction}
+          className="max-w-60"
         ></CustomFlyoutMenu>
-        <CustomFlyoutMenu title={"Tools"} options={tools}></CustomFlyoutMenu>
+        <CustomFlyoutMenu
+          title={"Tools"}
+          options={tools}
+          className="max-w-60"
+        ></CustomFlyoutMenu>
       </div>
       <div class="header-right-items">
         <CustomButton
-          icon={MagnifyingGlassCircleIcon}
+          icon={SavingsIcon}
           text="Unlock advanced features"
           className="py-2"
         />
-        <Input icon={MagnifyingGlassCircleIcon} text=""></Input>
-        <CustomButton icon={MagnifyingGlassCircleIcon} className="py-2" />
-        <CustomButton icon={MagnifyingGlassCircleIcon} className="py-2" />
-        <CustomButton icon={MagnifyingGlassCircleIcon} className="py-2" />
+        <Input icon={SearchIcon} text=""></Input>
+        <CustomButton icon={DownloadForOfflineIcon} className="py-2" />
+        <CustomButton icon={AccountCircleIcon} className="py-2" />
+        <CustomButton icon={SettingsIcon} className="py-2" />
+        <CustomButton icon={ZoomOutMapIcon} className="py-2" />
       </div>
     </header>
   );
