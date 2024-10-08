@@ -8,6 +8,7 @@ import useResize from "./hooks/useRecize";
 const App = () => {
   const [width, resizerRef, handleMouseDown, setWidth] = useResize(30, 25, 85);
   const [isMaximized, setIsMaximized] = useState(false);
+  const [invalidEditor, setInvalidEditor] = useState(false);
 
   const toggleResize = () => {
     if (isMaximized) {
@@ -24,8 +25,9 @@ const App = () => {
         width={width}
         resizerRef={resizerRef}
         handleMouseDown={handleMouseDown}
+        onInvalidEditor={setInvalidEditor}
       />
-      <Footer onEditorResizeToggle={toggleResize} />
+      <Footer onEditorResizeToggle={toggleResize} editorValid={invalidEditor} />
     </div>
   );
 };

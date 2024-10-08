@@ -35,9 +35,9 @@ export function transformToNodeArray(inputData) {
     let nestedObjects = classObjData.nestedObjects;
     let nestedArrays = classObjData.nestedArrays;
 
-    console.log("nodeData -> ", nodeData);
-    console.log("nestedObjects -> ", nestedObjects);
-    console.log("nestedArrays -> ", nestedArrays);
+    // console.log("nodeData -> ", nodeData);
+    // console.log("nestedObjects -> ", nestedObjects);
+    // console.log("nestedArrays -> ", nestedArrays);
 
     let NodeDimensions = calculateNodeDimensions(nodeData);
     // Nodo principal
@@ -51,8 +51,8 @@ export function transformToNodeArray(inputData) {
     };
 
     nodeArray.push(mainNode);
-    console.log("xxxxxxxxxxxxxxxx");
-    console.log("nestedObjects -> ", nestedObjects);
+    // console.log("xxxxxxxxxxxxxxxx");
+    // console.log("nestedObjects -> ", nestedObjects);
     // Procesar objetos anidados
     nestedObjects.forEach(({ key, value }) => {
       let nestedNodeDimention = calculateNestedNodeDimensions(key);
@@ -73,10 +73,10 @@ export function transformToNodeArray(inputData) {
 
     // Procesar arreglos anidados
     nestedArrays.forEach(({ key, value }) => {
-      console.log("key -> ", key);
-      console.log("type key -> ", typeof key);
-      console.log("value -> ", value);
-      console.log("typeof value -> ", typeof value);
+      // console.log("key -> ", key);
+      // console.log("type key -> ", typeof key);
+      // console.log("value -> ", value);
+      // console.log("typeof value -> ", typeof value);
 
       // Verificar si el arreglo contiene elementos
       if (value.length > 0) {
@@ -173,13 +173,14 @@ export function transformToNodeArray(inputData) {
           }
         });
       } else {
-        console.log("El arreglo está vacío");
+        // console.log("El arreglo está vacío");
+        console.log(" ");
       }
     });
   }
 
   // Procesar cada objeto en el array
-  console.log("Procesando el objeto enviado");
+  // console.log("Procesando el objeto enviado");
   dataArray.forEach((obj) => processObject(obj));
 
   return nodeArray;

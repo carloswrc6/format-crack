@@ -9,7 +9,7 @@ import MonacoEditor from "../components/MonacoEditor";
 import { Space } from "react-zoomable-ui";
 import "../style/Main.css";
 
-const Main = ({ width, resizerRef, handleMouseDown }) => {
+const Main = ({ width, resizerRef, handleMouseDown, onInvalidEditor }) => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
@@ -21,15 +21,25 @@ const Main = ({ width, resizerRef, handleMouseDown }) => {
       const updatedNodes = transformToNodeArray(result.json);
       setNodes(updatedNodes);
       setEdges(generateLinks(updatedNodes));
+      onInvalidEditor(false);
     } else {
       console.error("Error:", result.error);
+      onInvalidEditor(true);
     }
   }, [content]);
+
+  const handleValidationError = (errorMessage) => {
+    onInvalidEditor(errorMessage); // Enviar mensaje de error al Footer
+  };
 
   return (
     <div className="content">
       <div className="monaco-editor" style={{ width: `${width}%` }}>
-        <MonacoEditor content={content} onContentChange={setContent} />
+        <MonacoEditor
+          content={content}
+          onContentChange={setContent}
+          onValidationError={handleValidationError}
+        />
       </div>
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />
       <div
@@ -55,7 +65,7 @@ const Main = ({ width, resizerRef, handleMouseDown }) => {
             nodes={nodes}
             edges={edges}
             node={<Node>{(event) => <CustomNode event={event} />}</Node>}
-            onLayoutChange={(layout) => console.log("Layout changed", layout)}
+            // onLayoutChange={(layout) => console.log("Layout changed", layout)}
             maxWidth={2000} // Ajusta este valor según tus necesidades
             maxHeight={650} // Ajusta este valor según tus necesidades
           />

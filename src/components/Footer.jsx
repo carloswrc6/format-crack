@@ -10,7 +10,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 
-const Footer = ({ onEditorResizeToggle, editorValid = true }) => {
+const Footer = ({ onEditorResizeToggle, editorValid }) => {
   const [isSecondButtonVisible, setIsSecondButtonVisible] = useState(false);
   const handleFirstButtonClick = () => {
     setIsSecondButtonVisible(!isSecondButtonVisible); // Alternar visibilidad
@@ -23,9 +23,9 @@ const Footer = ({ onEditorResizeToggle, editorValid = true }) => {
           onClick={onEditorResizeToggle}
         />
         <CustomButton
-          icon={editorValid ? CheckCircleIcon : DoNotDisturbOnIcon}
-          text={editorValid ? "Valid" : "Invalid"}
-          className={editorValid ? "" : "text-red-500"}
+          icon={editorValid ? DoNotDisturbOnIcon : CheckCircleIcon}
+          text={editorValid ? "Invalid" : "Valid"}
+          className={editorValid ? "!text-red-500" : ""}
         />
         <CustomButton
           icon={isSecondButtonVisible ? SyncDisabledIcon : SyncIcon}
