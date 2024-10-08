@@ -25,6 +25,9 @@ import ShuffleIcon from "@mui/icons-material/Shuffle";
 import CompareIcon from "@mui/icons-material/Compare";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import PublicIcon from "@mui/icons-material/Public";
+import { useState, useCallback } from "react";
+import ZoomInMapIcon from "@mui/icons-material/ZoomInMap";
+
 const data = cmbs.typeFile;
 const file = [
   {
@@ -120,6 +123,36 @@ const callsToAction = [
 ];
 
 const Header = () => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement
+        .requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true);
+        })
+        .catch((err) => {
+          console.error(
+            `Error al intentar entrar en modo pantalla completa: ${err.message}`
+          );
+        });
+    } else {
+      if (document.exitFullscreen) {
+        document
+          .exitFullscreen()
+          .then(() => {
+            setIsFullscreen(false);
+          })
+          .catch((err) => {
+            console.error(
+              `Error al intentar salir del modo pantalla completa: ${err.message}`
+            );
+          });
+      }
+    }
+  }, []);
+
   return (
     <header>
       <div class="header-left-items">
@@ -148,7 +181,11 @@ const Header = () => {
         <CustomButton icon={DownloadForOfflineIcon} className="py-2" />
         <CustomButton icon={AccountCircleIcon} className="py-2" />
         <CustomButton icon={SettingsIcon} className="py-2" />
-        <CustomButton icon={ZoomOutMapIcon} className="py-2" />
+        <CustomButton
+          icon={isFullscreen ? ZoomInMapIcon : ZoomOutMapIcon}
+          className="py-2"
+          onClick={toggleFullscreen}
+        />
       </div>
     </header>
   );
