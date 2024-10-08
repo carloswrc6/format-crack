@@ -22,7 +22,7 @@ const useResize = (initialWidth = 30, minWidth = 25, maxWidth = 85) => {
     document.removeEventListener("mouseup", handleMouseUp);
   };
 
-  return [width, resizerRef, handleMouseDown];
+  return [width, resizerRef, handleMouseDown, setWidth];
 };
 
 export default useResize;

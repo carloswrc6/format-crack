@@ -6,17 +6,13 @@ import { transformToNodeArray } from "../utils/transformData";
 import CustomNode from "../components/CustomNode";
 import { validateAndParseJson } from "../utils/validateJson";
 import MonacoEditor from "../components/MonacoEditor";
-import useResize from "../hooks/useRecize";
 import { Space } from "react-zoomable-ui";
 import "../style/Main.css";
 
-const Main = () => {
+const Main = ({ width, resizerRef, handleMouseDown }) => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
-
-  // Custom hook for resizing
-  const [width, resizerRef, handleMouseDown] = useResize(30, 25, 85);
 
   // Efecto para procesar el JSON del editor cuando cambia el contenido
   useEffect(() => {
