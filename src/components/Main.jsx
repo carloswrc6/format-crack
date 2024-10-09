@@ -9,7 +9,13 @@ import MonacoEditor from "../components/MonacoEditor";
 import { Space } from "react-zoomable-ui";
 import "../style/Main.css";
 
-const Main = ({ width, resizerRef, handleMouseDown, onInvalidEditor }) => {
+const Main = ({
+  width,
+  resizerRef,
+  handleMouseDown,
+  onInvalidEditor,
+  onCounterNodes,
+}) => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
@@ -22,9 +28,11 @@ const Main = ({ width, resizerRef, handleMouseDown, onInvalidEditor }) => {
       setNodes(updatedNodes);
       setEdges(generateLinks(updatedNodes));
       onInvalidEditor(false);
+      onCounterNodes(nodes.length);
     } else {
       console.error("Error:", result.error);
       onInvalidEditor(true);
+      onCounterNodes(0);
     }
   }, [content]);
 

@@ -7,6 +7,7 @@ import useResize from "./hooks/useRecize";
 
 const App = () => {
   const [width, resizerRef, handleMouseDown, setWidth] = useResize(30, 25, 85);
+  const [counterNodes, setCounterNodes] = useState(0);
   const [isMaximized, setIsMaximized] = useState(false);
   const [invalidEditor, setInvalidEditor] = useState(false);
 
@@ -26,8 +27,13 @@ const App = () => {
         resizerRef={resizerRef}
         handleMouseDown={handleMouseDown}
         onInvalidEditor={setInvalidEditor}
+        onCounterNodes={setCounterNodes}
       />
-      <Footer onEditorResizeToggle={toggleResize} editorValid={invalidEditor} />
+      <Footer
+        onEditorResizeToggle={toggleResize}
+        editorValid={invalidEditor}
+        counterNodes={counterNodes}
+      />
     </div>
   );
 };

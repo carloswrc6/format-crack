@@ -10,7 +10,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
 
-const Footer = ({ onEditorResizeToggle, editorValid }) => {
+const Footer = ({ onEditorResizeToggle, editorValid, counterNodes }) => {
   const [isSecondButtonVisible, setIsSecondButtonVisible] = useState(false);
   const handleFirstButtonClick = () => {
     setIsSecondButtonVisible(!isSecondButtonVisible); // Alternar visibilidad
@@ -41,7 +41,7 @@ const Footer = ({ onEditorResizeToggle, editorValid }) => {
         )}
       </div>
       <div className="footer-right-items">
-        <CustomButton text="Nodes:19" />
+        <CustomButton text={"Nodes: " + counterNodes} />
         <CustomButton icon={CommentIcon} text="Feedback" />
       </div>
     </footer>
