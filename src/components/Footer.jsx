@@ -15,6 +15,12 @@ const Footer = ({ onEditorResizeToggle, editorValid, counterNodes }) => {
   const handleFirstButtonClick = () => {
     setIsSecondButtonVisible(!isSecondButtonVisible); // Alternar visibilidad
   };
+  const openGitHubDiscussions = () => {
+    const githubDiscussionsUrl =
+      "https://github.com/carloswrc6/format-crack/discussions";
+    window.open(githubDiscussionsUrl, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <footer>
       <div className="footer-left-items">
@@ -42,7 +48,11 @@ const Footer = ({ onEditorResizeToggle, editorValid, counterNodes }) => {
       </div>
       <div className="footer-right-items">
         <CustomButton text={"Nodes: " + counterNodes} />
-        <CustomButton icon={CommentIcon} text="Feedback" />
+        <CustomButton
+          icon={CommentIcon}
+          text="Feedback"
+          onClick={openGitHubDiscussions}
+        />
       </div>
     </footer>
   );
