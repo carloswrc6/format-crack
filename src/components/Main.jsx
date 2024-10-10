@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Canvas, Node } from "reaflow";
 import data from "../mocks/archivoJson.json";
 import { generateLinks } from "../utils/generateLink";
@@ -15,29 +15,34 @@ const Main = ({
   handleMouseDown,
   onInvalidEditor,
   onCounterNodes,
+  liveTransform,
+  forceLiveTransform,
 }) => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
+  const [previousContent, setPreviousContent] = useState("");
 
-  // Efecto para procesar el JSON del editor cuando cambia el contenido
   useEffect(() => {
-    const result = validateAndParseJson(content);
-    if (result.status) {
-      const updatedNodes = transformToNodeArray(result.json);
-      setNodes(updatedNodes);
-      setEdges(generateLinks(updatedNodes));
-      onInvalidEditor(false);
-      onCounterNodes(nodes.length);
-    } else {
-      console.error("Error:", result.error);
-      onInvalidEditor(true);
-      onCounterNodes(0);
+    if ((liveTransform && content !== previousContent) || forceLiveTransform) {
+      const result = validateAndParseJson(content);
+      if (result.status) {
+        const updatedNodes = transformToNodeArray(result.json);
+        setNodes(updatedNodes);
+        setEdges(generateLinks(updatedNodes));
+        onInvalidEditor(false);
+        onCounterNodes(nodes.length);
+      } else {
+        console.error("Error:", result.error);
+        onInvalidEditor(true);
+        onCounterNodes(0);
+      }
+      setPreviousContent(content);
     }
-  }, [content]);
+  }, [content, liveTransform, forceLiveTransform]);
 
   const handleValidationError = (errorMessage) => {
-    onInvalidEditor(errorMessage); // Enviar mensaje de error al Footer
+    onInvalidEditor(errorMessage);
   };
 
   return (

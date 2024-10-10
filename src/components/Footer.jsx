@@ -9,12 +9,14 @@ import SyncDisabledIcon from "@mui/icons-material/SyncDisabled";
 import CommentIcon from "@mui/icons-material/Comment";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import SpaceDashboardIcon from "@mui/icons-material/SpaceDashboard";
-
-const Footer = ({ onEditorResizeToggle, editorValid, counterNodes }) => {
-  const [isSecondButtonVisible, setIsSecondButtonVisible] = useState(false);
-  const handleFirstButtonClick = () => {
-    setIsSecondButtonVisible(!isSecondButtonVisible); // Alternar visibilidad
-  };
+const Footer = ({
+  onEditorResizeToggle,
+  editorValid,
+  counterNodes,
+  liveTransform,
+  onLiveTransformToggle,
+  onForceLiveTransformToggle,
+}) => {
   const openGitHubDiscussions = () => {
     const githubDiscussionsUrl =
       "https://github.com/carloswrc6/format-crack/discussions";
@@ -34,15 +36,16 @@ const Footer = ({ onEditorResizeToggle, editorValid, counterNodes }) => {
           className={editorValid ? "!text-red-500" : ""}
         />
         <CustomButton
-          icon={isSecondButtonVisible ? SyncDisabledIcon : SyncIcon}
-          text="Live Transform"
-          onClick={handleFirstButtonClick}
+          icon={liveTransform ? SyncIcon : SyncDisabledIcon}
+          text={"Live Transform "}
+          onClick={onLiveTransformToggle}
         />
-        {isSecondButtonVisible && (
+        {!liveTransform && (
           <CustomButton
             icon={SlowMotionVideoIcon}
             text="Click to Transform"
             className="hover:bg-inherit"
+            onClick={onForceLiveTransformToggle}
           />
         )}
       </div>

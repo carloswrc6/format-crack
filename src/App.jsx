@@ -10,6 +10,8 @@ const App = () => {
   const [counterNodes, setCounterNodes] = useState(0);
   const [isMaximized, setIsMaximized] = useState(false);
   const [invalidEditor, setInvalidEditor] = useState(false);
+  const [liveTransform, setLiveTransform] = useState(true);
+  const [forceLiveTransform, setForceLiveTransform] = useState(false);
 
   const toggleResize = () => {
     if (isMaximized) {
@@ -19,20 +21,36 @@ const App = () => {
     }
     setIsMaximized(!isMaximized);
   };
+
+  const handleLiveTransformToggle = () => {
+    setLiveTransform(!liveTransform);
+  };
+  const handleForceLiveTransformToggle = () => {
+    setForceLiveTransform(true);
+    setTimeout(() => {
+      setForceLiveTransform(false);
+    }, 0);
+  };
+
   return (
     <div className="App">
-      <Header></Header>
+      <Header />
       <Main
         width={width}
         resizerRef={resizerRef}
         handleMouseDown={handleMouseDown}
         onInvalidEditor={setInvalidEditor}
         onCounterNodes={setCounterNodes}
+        liveTransform={liveTransform}
+        forceLiveTransform={forceLiveTransform}
       />
       <Footer
         onEditorResizeToggle={toggleResize}
         editorValid={invalidEditor}
         counterNodes={counterNodes}
+        liveTransform={liveTransform}
+        onLiveTransformToggle={handleLiveTransformToggle}
+        onForceLiveTransformToggle={handleForceLiveTransformToggle}
       />
     </div>
   );
