@@ -27,15 +27,33 @@ const MonacoEditor = ({ content, onContentChange, onValidationError }) => {
       monacoEditorRef.current.onDidChangeModelContent(() => {
         const newValue = monacoEditorRef.current.getValue();
 
-        // Intentar parsear el contenido como JSON
         try {
-          console.log("validando");
           JSON.parse(newValue);
           onValidationError(false);
-          console.log("sin error");
+          monaco.editor.setModelMarkers(
+            monacoEditorRef.current.getModel(),
+            "owner",
+            []
+          );
         } catch (e) {
-          console.log("con error");
           onValidationError(true);
+
+          const errorMatch = e.message.match(/at position (\d+)/);
+          let errorPosition = errorMatch ? parseInt(errorMatch[1]) : 0;
+
+          const model = monacoEditorRef.current.getModel();
+          const { lineNumber, column } = model.getPositionAt(errorPosition);
+
+          monaco.editor.setModelMarkers(model, "owner", [
+            {
+              startLineNumber: lineNumber,
+              startColumn: column,
+              endLineNumber: lineNumber,
+              endColumn: column + 1,
+              message: e.message,
+              severity: monaco.MarkerSeverity.Error,
+            },
+          ]);
         }
 
         if (onContentChange) {
