@@ -19,7 +19,7 @@ const typeView = cmbs.typeView;
 const view = cmbs.viewActions;
 const tools = cmbs.toolActions;
 
-const Header = () => {
+const Header = ({ onLanguageChange }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleFullscreen = useCallback(() => {
@@ -52,9 +52,14 @@ const Header = () => {
 
   return (
     <header>
-      <div class="header-left-items">
-        {/* img */}
-        <CustomSelect options={typeFile}></CustomSelect>
+      <div className="header-left-items">
+        <CustomSelect
+          options={typeFile}
+          onChange={(selected) => {
+            console.log("Lenguaje seleccionado:", selected.value); // Agrega este log
+            onLanguageChange(selected.value);
+          }}
+        />
         <CustomFlyoutMenu title={"File"} options={file}></CustomFlyoutMenu>
         <CustomFlyoutMenu
           title={"View"}

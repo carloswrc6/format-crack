@@ -17,6 +17,7 @@ const Main = ({
   onCounterNodes,
   liveTransform,
   forceLiveTransform,
+  selectedLanguage,
 }) => {
   const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
@@ -52,6 +53,7 @@ const Main = ({
           content={content}
           onContentChange={setContent}
           onValidationError={handleValidationError}
+          language={selectedLanguage}
         />
       </div>
       <div className="resizer" ref={resizerRef} onMouseDown={handleMouseDown} />

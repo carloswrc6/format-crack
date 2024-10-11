@@ -12,6 +12,12 @@ const App = () => {
   const [invalidEditor, setInvalidEditor] = useState(false);
   const [liveTransform, setLiveTransform] = useState(true);
   const [forceLiveTransform, setForceLiveTransform] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("json");
+
+  const handleLanguageChange = (language) => {
+    console.log("Cambiando lenguaje a:", language); // Agrega este log
+    setSelectedLanguage(language);
+  };
 
   const toggleResize = () => {
     if (isMaximized) {
@@ -34,7 +40,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header />
+      <Header onLanguageChange={handleLanguageChange} />
       <Main
         width={width}
         resizerRef={resizerRef}
@@ -43,6 +49,7 @@ const App = () => {
         onCounterNodes={setCounterNodes}
         liveTransform={liveTransform}
         forceLiveTransform={forceLiveTransform}
+        selectedLanguage={selectedLanguage}
       />
       <Footer
         onEditorResizeToggle={toggleResize}

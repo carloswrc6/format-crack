@@ -18,26 +18,11 @@ import PublicIcon from "@mui/icons-material/Public";
 
 export const cmbs = {
   typeFile: [
-    {
-      id: "JSON",
-      name: "JSON",
-    },
-    {
-      id: "YAML",
-      name: "YAML",
-    },
-    {
-      id: "XML",
-      name: "XML",
-    },
-    {
-      id: "TOML",
-      name: "TOML",
-    },
-    {
-      id: "CSV",
-      name: "CSV",
-    },
+    { name: "JSON", value: "json" },
+    { name: "XML", value: "xml" },
+    { name: "YAML", value: "yaml" },
+    { name: "TOML", value: "toml" },
+    { name: "CSV", value: "csv" },
   ],
   fileActions: [
     {

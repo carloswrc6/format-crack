@@ -1,7 +1,14 @@
 import React, { useRef, useEffect } from "react";
 import * as monaco from "monaco-editor";
 
-const MonacoEditor = ({ content, onContentChange, onValidationError }) => {
+const MonacoEditor = ({
+  content,
+  onContentChange,
+  onValidationError,
+  language,
+}) => {
+  console.log("MonacoEditor recibió lenguaje:", language); // Agrega este log
+
   const editorRef = useRef(null);
   const monacoEditorRef = useRef(null); // Mantener la referencia del editor de Monaco
 
@@ -10,7 +17,7 @@ const MonacoEditor = ({ content, onContentChange, onValidationError }) => {
       // Crear el editor una sola vez
       monacoEditorRef.current = monaco.editor.create(editorRef.current, {
         value: content || "", // Usar el contenido que viene de props
-        language: "json",
+        language: language, // Usa el lenguaje proporcionado
         theme: "vs-dark",
         automaticLayout: true,
         minimap: { enabled: false },
@@ -71,6 +78,16 @@ const MonacoEditor = ({ content, onContentChange, onValidationError }) => {
     };
   }, []);
 
+  // Efecto para actualizar el lenguaje cuando cambie
+  useEffect(() => {
+    if (monacoEditorRef.current) {
+      monaco.editor.setModelLanguage(
+        monacoEditorRef.current.getModel(),
+        language
+      );
+    }
+  }, [language]);
+
   // Actualizar el valor del editor cuando cambie el prop `content`
   useEffect(() => {
     if (monacoEditorRef.current) {
@@ -82,8 +99,21 @@ const MonacoEditor = ({ content, onContentChange, onValidationError }) => {
   }, [content]);
 
   return (
-    <div>
-      <div ref={editorRef} style={{ height: "100%", width: "100%" }} />
+    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          padding: "5px 10px",
+          backgroundColor: "#f0f0f0",
+          borderBottom: "1px solid #ccc",
+          fontSize: "14px",
+        }}
+      >
+        Lenguaje actual:{" "}
+        <span style={{ fontWeight: "bold" }}>
+          {language || "No seleccionado"}
+        </span>
+      </div>
+      <div ref={editorRef} style={{ flexGrow: 1 }} />
     </div>
   );
 };
