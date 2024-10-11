@@ -28,10 +28,12 @@ export const cmbs = {
     {
       name: "Import",
       icon: UploadFileIcon,
+      action: "onImport",
     },
     {
       name: "Export",
       icon: GetAppIcon,
+      action: "onExport",
     },
   ],
   typeView: [{ name: "Grahp" }, { name: "Tree" }],

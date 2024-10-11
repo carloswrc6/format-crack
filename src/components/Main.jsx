@@ -18,8 +18,9 @@ const Main = ({
   liveTransform,
   forceLiveTransform,
   selectedLanguage,
+  content,
+  onContentChange,
 }) => {
-  const [content, setContent] = useState("");
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
   const [previousContent, setPreviousContent] = useState("");
@@ -51,7 +52,7 @@ const Main = ({
       <div className="monaco-editor" style={{ width: `${width}%` }}>
         <MonacoEditor
           content={content}
-          onContentChange={setContent}
+          onContentChange={onContentChange}
           onValidationError={handleValidationError}
           language={selectedLanguage}
         />

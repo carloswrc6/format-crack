@@ -14,12 +14,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import ZoomInMapIcon from "@mui/icons-material/ZoomInMap";
 
 const typeFile = cmbs.typeFile;
-const file = cmbs.fileActions;
 const typeView = cmbs.typeView;
 const view = cmbs.viewActions;
 const tools = cmbs.toolActions;
 
-const Header = ({ onLanguageChange }) => {
+const Header = ({ onLanguageChange, onImport, onExport }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleFullscreen = useCallback(() => {
@@ -50,17 +49,25 @@ const Header = ({ onLanguageChange }) => {
     }
   }, []);
 
+  const fileActions = cmbs.fileActions.map((action) => ({
+    ...action,
+    action: action.action === "onImport" ? onImport : onExport,
+  }));
+
   return (
     <header>
       <div className="header-left-items">
         <CustomSelect
           options={typeFile}
           onChange={(selected) => {
-            console.log("Lenguaje seleccionado:", selected.value); // Agrega este log
+            console.log("Lenguaje seleccionado:", selected.value);
             onLanguageChange(selected.value);
           }}
         />
-        <CustomFlyoutMenu title={"File"} options={file}></CustomFlyoutMenu>
+        <CustomFlyoutMenu
+          title={"File"}
+          options={fileActions}
+        ></CustomFlyoutMenu>
         <CustomFlyoutMenu
           title={"View"}
           options={view}
