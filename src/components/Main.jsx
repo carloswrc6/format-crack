@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Canvas, Node } from "reaflow";
 import data from "../mocks/archivoJson.json";
 import { generateLinks } from "../utils/generateLink";
@@ -20,10 +20,12 @@ const Main = ({
   selectedLanguage,
   content,
   onContentChange,
+  direction,
 }) => {
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
   const [previousContent, setPreviousContent] = useState("");
+  const [key, setKey] = useState(0);
 
   useEffect(() => {
     if ((liveTransform && content !== previousContent) || forceLiveTransform) {
@@ -33,7 +35,7 @@ const Main = ({
         setNodes(updatedNodes);
         setEdges(generateLinks(updatedNodes));
         onInvalidEditor(false);
-        onCounterNodes(nodes.length);
+        onCounterNodes(updatedNodes.length);
       } else {
         console.error("Error:", result.error);
         onInvalidEditor(true);
@@ -41,11 +43,25 @@ const Main = ({
       }
       setPreviousContent(content);
     }
-  }, [content, liveTransform, forceLiveTransform]);
+  }, [
+    content,
+    liveTransform,
+    forceLiveTransform,
+    onInvalidEditor,
+    onCounterNodes,
+  ]);
 
-  const handleValidationError = (errorMessage) => {
-    onInvalidEditor(errorMessage);
-  };
+  useEffect(() => {
+    // Forzar la actualización del Canvas cuando cambia la dirección
+    setKey((prevKey) => prevKey + 1);
+  }, [direction]);
+
+  const handleValidationError = useCallback(
+    (errorMessage) => {
+      onInvalidEditor(errorMessage);
+    },
+    [onInvalidEditor]
+  );
 
   return (
     <div className="content">
@@ -63,7 +79,7 @@ const Main = ({
         style={{
           width: `${100 - width}%`,
           position: "relative",
-          height: "100%", // Asegura que el contenedor ocupe toda la altura disponible
+          height: "100%",
         }}
       >
         <Space
@@ -71,19 +87,19 @@ const Main = ({
             width: "100%",
             height: "100%",
           }}
-          centerContent={true} // Centra el contenido dentro del Space
+          centerContent={true}
         >
           <Canvas
-            direction="RIGHT"
+            key={key}
+            direction={direction}
             readonly={true}
             fit={true}
             zoom={false}
             nodes={nodes}
             edges={edges}
             node={<Node>{(event) => <CustomNode event={event} />}</Node>}
-            // onLayoutChange={(layout) => console.log("Layout changed", layout)}
-            maxWidth={2000} // Ajusta este valor según tus necesidades
-            maxHeight={650} // Ajusta este valor según tus necesidades
+            maxWidth={2000}
+            maxHeight={650}
           />
         </Space>
       </div>

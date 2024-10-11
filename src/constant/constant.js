@@ -40,21 +40,21 @@ export const cmbs = {
   viewActions: [
     {
       name: "Rotate Layout",
-      description: "",
-      href: "#",
+      description: "Cambia la dirección del gráfico",
       icon: AccountTreeIcon,
+      action: "rotateLayout",
     },
     {
       name: "Collapse Graph",
       description: "",
-      href: "#",
       icon: FilterNoneIcon,
+      action: "collapseGraph",
     },
     {
       name: "Focus to first node",
       description: "",
-      href: "#",
       icon: GpsFixedIcon,
+      action: "focusFirstNode",
     },
   ],
   toolActions: [
@@ -112,5 +112,11 @@ export const cmbs = {
       href: "#",
       icon: CompareIcon,
     },
+  ],
+  nodeDirections: [
+    { name: "Derecha", value: "RIGHT" },
+    { name: "Abajo", value: "DOWN" },
+    { name: "Izquierda", value: "LEFT" },
+    { name: "Arriba", value: "UP" },
   ],
 };

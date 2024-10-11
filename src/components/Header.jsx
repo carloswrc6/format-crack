@@ -1,5 +1,5 @@
 import "../style/Header.css";
-import { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { cmbs } from "../constant/constant";
 import Input from "./Input";
 import CustomButton from "./CustomButton";
@@ -18,8 +18,14 @@ const typeView = cmbs.typeView;
 const view = cmbs.viewActions;
 const tools = cmbs.toolActions;
 
-const Header = ({ onLanguageChange, onImport, onExport }) => {
+const Header = ({
+  onLanguageChange,
+  onImport,
+  onExport,
+  onDirectionChange,
+}) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [currentDirection, setCurrentDirection] = useState(0);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -49,9 +55,50 @@ const Header = ({ onLanguageChange, onImport, onExport }) => {
     }
   }, []);
 
+  const rotateLayout = useCallback(() => {
+    console.log(" rotateLayout ");
+    const newDirectionIndex =
+      (currentDirection + 1) % cmbs.nodeDirections.length;
+    console.log(" newDirectionIndex ", newDirectionIndex);
+    setCurrentDirection(newDirectionIndex);
+    console.log(
+      " onDirectionChange ",
+      cmbs.nodeDirections[newDirectionIndex].value
+    );
+    onDirectionChange(cmbs.nodeDirections[newDirectionIndex].value);
+  }, [currentDirection, onDirectionChange]);
+
+  const handleViewAction = useCallback(
+    (actionType) => {
+      switch (actionType) {
+        case "rotateLayout":
+          rotateLayout();
+          break;
+        case "collapseGraph":
+          console.log("Colapsar gráfico");
+          break;
+        case "focusFirstNode":
+          console.log("Enfocar al primer nodo");
+          break;
+        default:
+          break;
+      }
+    },
+    [rotateLayout]
+  );
+
   const fileActions = cmbs.fileActions.map((action) => ({
     ...action,
     action: action.action === "onImport" ? onImport : onExport,
+  }));
+
+  const viewOptions = view.map((action) => ({
+    ...action,
+    onClick: () => handleViewAction(action.action),
+    description:
+      action.action === "rotateLayout"
+        ? `Dirección actual: ${cmbs.nodeDirections[currentDirection].name}`
+        : action.description,
   }));
 
   return (
@@ -70,8 +117,7 @@ const Header = ({ onLanguageChange, onImport, onExport }) => {
         ></CustomFlyoutMenu>
         <CustomFlyoutMenu
           title={"View"}
-          options={view}
-          tabOptions={typeView}
+          options={viewOptions}
           className="max-w-60"
         ></CustomFlyoutMenu>
         <CustomFlyoutMenu

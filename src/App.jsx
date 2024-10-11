@@ -14,6 +14,7 @@ const App = () => {
   const [forceLiveTransform, setForceLiveTransform] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("json");
   const [editorContent, setEditorContent] = useState("");
+  const [graphDirection, setGraphDirection] = useState("RIGHT");
 
   const handleLanguageChange = (language) => {
     console.log("Cambiando lenguaje a:", language); // Agrega este log
@@ -68,12 +69,18 @@ const App = () => {
     URL.revokeObjectURL(url);
   }, [editorContent, selectedLanguage]);
 
+  const handleDirectionChange = useCallback((newDirection) => {
+    console.log("Se clickeo handleDirectionChange");
+    setGraphDirection(newDirection);
+  }, []);
+
   return (
     <div className="App">
       <Header
         onLanguageChange={handleLanguageChange}
         onImport={handleImport}
         onExport={handleExport}
+        onDirectionChange={handleDirectionChange}
       />
       <Main
         width={width}
@@ -86,6 +93,7 @@ const App = () => {
         selectedLanguage={selectedLanguage}
         content={editorContent}
         onContentChange={setEditorContent}
+        direction={graphDirection}
       />
       <Footer
         onEditorResizeToggle={toggleResize}

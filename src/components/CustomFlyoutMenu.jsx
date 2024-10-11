@@ -34,16 +34,24 @@ const CustomFlyoutMenu = ({ title, options, tabOptions, className = "" }) => {
               <div
                 key={item.name}
                 className="group relative flex gap-x-6 rounded-lg hover:bg-gray-50"
-                onClick={item.action}
+                onClick={() => item.onClick && item.onClick()}
               >
                 <div className="mt-0.5 flex h-5 w-5 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                  <item.icon
-                    aria-hidden="true"
-                    className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
-                  />
+                  {item.icon && (
+                    <item.icon
+                      aria-hidden="true"
+                      className="h-6 w-6 text-gray-600 group-hover:text-indigo-600"
+                    />
+                  )}
                 </div>
                 <div>
-                  <span className="text-gray-900">{item.name}</span>
+                  <span className="text-gray-900">
+                    {item.name}
+                    <span className="absolute inset-0" />
+                  </span>
+                  {item.description && (
+                    <p className="mt-1 text-gray-600">{item.description}</p>
+                  )}
                 </div>
               </div>
             ))}
