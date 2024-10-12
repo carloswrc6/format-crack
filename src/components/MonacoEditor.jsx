@@ -100,7 +100,7 @@ const MonacoEditor = ({
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <div
+      {/* <div
         style={{
           padding: "5px 10px",
           backgroundColor: "#f0f0f0",
@@ -112,7 +112,7 @@ const MonacoEditor = ({
         <span style={{ fontWeight: "bold" }}>
           {language || "No seleccionado"}
         </span>
-      </div>
+      </div> */}
       <div ref={editorRef} style={{ flexGrow: 1 }} />
     </div>
   );

@@ -63,6 +63,16 @@ const Main = ({
     [onInvalidEditor]
   );
 
+  const handleNodeDimensions = useCallback((id, width, height) => {
+    setNodes((prevNodes) =>
+      prevNodes.map((node) =>
+        node.id === id
+          ? { ...node, width: Math.ceil(width), height: Math.ceil(height) }
+          : node
+      )
+    );
+  }, []);
+
   return (
     <div className="content">
       <div className="monaco-editor" style={{ width: `${width}%` }}>
@@ -94,12 +104,34 @@ const Main = ({
             direction={direction}
             readonly={true}
             fit={true}
-            zoom={false}
+            zoom={true}
             nodes={nodes}
             edges={edges}
-            node={<Node>{(event) => <CustomNode event={event} />}</Node>}
+            node={
+              <Node>
+                {(event) => (
+                  <CustomNode
+                    event={{
+                      ...event,
+                      setNodeHeight: (height) =>
+                        handleNodeDimensions(
+                          event.node.id,
+                          event.width,
+                          height
+                        ),
+                      setNodeWidth: (width) =>
+                        handleNodeDimensions(
+                          event.node.id,
+                          width,
+                          event.height
+                        ),
+                    }}
+                  />
+                )}
+              </Node>
+            }
             maxWidth={2000}
-            maxHeight={650}
+            maxHeight={2000}
           />
         </Space>
       </div>

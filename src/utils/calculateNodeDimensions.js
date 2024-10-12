@@ -7,7 +7,7 @@
 export function calculateNodeDimensions(nodeData) {
   // Cálculo dinámico de la altura en función del número de claves
   const calculatedHeight =
-    Object.keys(nodeData).length * 30 - Object.keys(nodeData).length * 2;
+    Object.keys(nodeData).length * 10 - Object.keys(nodeData).length * 2;
 
   // Cálculo dinámico del ancho en función de la concatenación de claves y valores
   const longestConcatenation = Object.entries(nodeData).reduce(
@@ -21,7 +21,8 @@ export function calculateNodeDimensions(nodeData) {
   );
 
   // Ancho basado en la longitud de clave + valor concatenados
-  const calculatedWidth = longestConcatenation * 10 + 70;
+  const calculatedWidth =
+    longestConcatenation * 10 + 50 - longestConcatenation * 2 + 50;
 
   // Retorna un objeto con el ancho y la altura calculados
   return {
@@ -31,8 +32,8 @@ export function calculateNodeDimensions(nodeData) {
 }
 
 export function calculateNestedNodeDimensions(key) {
-  const nestedNodeHeight = 30; // Altura fija para el nodo intermedio
-  const nestedNodeWidth = (key.length + 5) * 10 + 100; // Ancho basado en la longitud de la clave
+  const nestedNodeHeight = 28; // Altura fija para el nodo intermedio
+  const nestedNodeWidth = (key.length + 5) * 10 + 70 - (key.length + 5) * 2; // Ancho basado en la longitud de la clave
   // Retorna un objeto con el ancho y la altura calculados
   return {
     width: nestedNodeWidth,

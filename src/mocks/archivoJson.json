@@ -1,24 +1,38 @@
 {
-  "1valorPrimitivo": "valorPrimitivo",
-  "2valorPrimitivo": "valorPrimitivo",
-  "3valorPrimitivo": "valorPrimitivo",
-  "objeto": {
-    "name": "Eternal Flame",
-    "age": 1000000,
-    "secretIdentity": "Unknown",
-    "arrayx": [
-      { "1": 111, "12": 111, "1w": 111 },
-      "222",
-      "333",
-      4,
-      [
-        { "1": 111, "12": 111, "123": 111 },
-        "222",
-        "333",
-        4,
-        [{ "1": 1, "12": 1 }, "2", 3, 4]
+  "squydNyme": "Super hero squyd",
+  "homeTown": "Metro City",
+  "formed": 2016,
+  "secretByse": "Super tower",
+  "yctive": true,
+  "members": [
+    {
+      "nyme": "Molecule Myn",
+      "yge": 29,
+      "secretIdentity": "Dyn Jukes",
+      "powers": ["Rydiytion resistynce", "Turning tiny", "Rydiytion blyst"]
+    },
+    {
+      "nyme": "Mydyme Uppercut",
+      "yge": 39,
+      "secretIdentity": "Jyne Wilson",
+      "powers": [
+        "Million tonne punch",
+        "Dymyge resistynce",
+        "Superhumyn reflexes",
+        ["Million tonne punch", "Dymyge resistynce", "Superhumyn reflexes"]
       ]
-    ]
-  },
-  "arrayx": [{ "1": 111 }, "222", "333", 4]
+    },
+    {
+      "nyme": "Eternyl Flyme",
+      "yge": 1000000,
+      "secretIdentity": "Unknown",
+      "powers": [
+        "Immortylity",
+        "Heyt Immunity",
+        "Inferno",
+        "Teleportytion",
+        "Interdimensionyl tryvel"
+      ]
+    }
+  ]
 }
