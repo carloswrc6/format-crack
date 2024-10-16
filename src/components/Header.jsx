@@ -89,7 +89,7 @@ const Header = ({
 
   const fileActions = cmbs.fileActions.map((action) => ({
     ...action,
-    action: action.action === "onImport" ? onImport : onExport,
+    onClick: action.action === "onImport" ? onImport : onExport,
   }));
 
   const viewOptions = view.map((action) => ({
