@@ -67,6 +67,7 @@ const Main = ({
     console.log(" useEffect -> algo cambio x2 ");
     if (visibleNode) {
       // setNodes(nodes);
+      console.log(" nodes -> ", nodes);
       setEdges(generateLinks(nodes.filter((e) => e.visible === true)));
       console.log(" useEffect -> edges ", edges);
     }
@@ -95,30 +96,25 @@ const Main = ({
   }, []);
 
   const handleNodeUpdate = useCallback((nodeId, updates) => {
-    console.log(" handleNodeUpdate -> ", nodeId, updates);
+    console.log("handleNodeUpdate ->", nodeId, updates);
 
     setNodes((prevNodes) => {
+      // Copiar los nodos actuales
       let auxNodes = [...prevNodes];
-      let pos = auxNodes.findIndex((e) => e.id === nodeId);
 
-      if (pos !== -1) {
-        auxNodes[pos] = {
-          ...auxNodes[pos],
-          // ...updates,
-          visible: !updates.visible,
-        };
+      // Encuentra los hijos del nodo padre
+      auxNodes = auxNodes.map((node) =>
+        node.parentId === nodeId
+          ? { ...node, visible: !node.visible } // Cambia la visibilidad de los hijos
+          : node
+      );
 
-        // Modifica el estado visible de los hijos
-        auxNodes = auxNodes.map((node) =>
-          node.parentId === nodeId
-            ? { ...node, ...updates } // Sincroniza la visibilidad con el padre
-            : node
-        );
-      }
-      console.log(" auxNodes -> ", auxNodes);
-      return auxNodes.filter((e) => e.visible === true);
+      console.log("auxNodes ->", auxNodes);
+
+      return auxNodes;
     });
 
+    // Incrementar el conteo de nodos visibles
     setVisibleNode((prevCount) => prevCount + 1);
   }, []);
 
@@ -154,7 +150,7 @@ const Main = ({
             readonly={true}
             fit={true}
             zoom={true}
-            nodes={nodes}
+            nodes={nodes.filter((e) => e.visible === true)}
             edges={edges}
             node={
               <Node>

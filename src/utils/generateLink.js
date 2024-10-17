@@ -15,6 +15,7 @@ export function generateLinks(nodes) {
         id: `${node.parentId}-${node.id}`,
         from: node.parentId,
         to: node.id,
+        visible: node.visible,
       });
     }
   });
