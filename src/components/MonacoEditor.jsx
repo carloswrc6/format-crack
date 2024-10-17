@@ -7,7 +7,7 @@ const MonacoEditor = ({
   onValidationError,
   language,
 }) => {
-  console.log("MonacoEditor recibió lenguaje:", language); // Agrega este log
+  // console.log("MonacoEditor recibió lenguaje:", language); // Agrega este log
 
   const editorRef = useRef(null);
   const monacoEditorRef = useRef(null); // Mantener la referencia del editor de Monaco
