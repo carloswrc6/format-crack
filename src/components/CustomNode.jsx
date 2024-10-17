@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../style/CustomNode.css"; // Importar los estilos desde un archivo CSS
-import InfoIcon from "@mui/icons-material/Info";
+import LinkIcon from "@mui/icons-material/Link";
+import LinkOffIcon from "@mui/icons-material/LinkOff";
 
-const CustomNode = ({ event }) => {
+const CustomNode = ({ event, onNodeUpdate }) => {
   const [height, setHeight] = useState(event.height);
+  const [isVisible, setIsVisible] = useState(event.node.visible ?? true);
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -54,6 +56,16 @@ const CustomNode = ({ event }) => {
     });
   };
 
+  const handleButtonClick = () => {
+    const newVisibleState = !isVisible;
+    setIsVisible(newVisibleState);
+    console.log(" valor ", newVisibleState);
+    if (onNodeUpdate) {
+      console.log(" fiun ");
+      onNodeUpdate(event.node.id, { visible: newVisibleState });
+    }
+  };
+
   if (!event || !event.node || !event.node.data) {
     return null; // Verifica que event y sus propiedades existen
   }
@@ -65,9 +77,14 @@ const CustomNode = ({ event }) => {
           <h3 className="custom-node-title">
             {renderAttributes(event.node.data)}
           </h3>
-          {/* <div className="custom-node-icon !bg-red-900">
-            <InfoIcon />
-          </div> */}
+          {event.node.btnVisible && (
+            <div
+              className={`custom-node-icon ${isVisible ? "" : "opacity-50"}`}
+              onClick={handleButtonClick}
+            >
+              {isVisible ? <LinkIcon /> : <LinkOffIcon />}
+            </div>
+          )}
         </div>
       </div>
     </foreignObject>

@@ -1,4 +1,4 @@
-export function classifyObjectData(obj, parentId = null) {
+export function classifyObjectData(obj, collapseGraph) {
   let nodeData = {};
   let nestedObjects = [];
   let nestedArrays = [];

@@ -23,6 +23,7 @@ const Header = ({
   onImport,
   onExport,
   onDirectionChange,
+  onViewOptionClick,
 }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentDirection, setCurrentDirection] = useState(0);
@@ -75,7 +76,7 @@ const Header = ({
           rotateLayout();
           break;
         case "collapseGraph":
-          console.log("Colapsar gráfico");
+          handleViewOptionClick();
           break;
         case "focusFirstNode":
           console.log("Enfocar al primer nodo");
@@ -100,6 +101,11 @@ const Header = ({
         ? `Dirección actual: ${cmbs.nodeDirections[currentDirection].name}`
         : action.description,
   }));
+
+  const handleViewOptionClick = () => {
+    console.log("handleViewOptionClick hijo");
+    onViewOptionClick();
+  };
 
   return (
     <header>

@@ -21,19 +21,30 @@ const Main = ({
   content,
   onContentChange,
   direction,
+  collapseGraph,
 }) => {
-  const [nodes, setNodes] = useState(transformToNodeArray(data));
+  const [nodes, setNodes] = useState(transformToNodeArray(data, collapseGraph));
   const [edges, setEdges] = useState(generateLinks(nodes));
   const [previousContent, setPreviousContent] = useState("");
   const [key, setKey] = useState(0);
+  const [visibleNode, setVisibleNode] = useState(0);
 
   useEffect(() => {
-    if ((liveTransform && content !== previousContent) || forceLiveTransform) {
+    console.log(" useEffect -> algo cambio ");
+    if (
+      (liveTransform && content !== previousContent) ||
+      forceLiveTransform ||
+      collapseGraph
+    ) {
       const result = validateAndParseJson(content);
       if (result.status) {
-        const updatedNodes = transformToNodeArray(result.json);
+        console.log(" useEffect -> collapseGraph ", collapseGraph);
+        const updatedNodes = transformToNodeArray(result.json, collapseGraph);
+        console.log(" useEffect -> updatedNodes ", updatedNodes);
         setNodes(updatedNodes);
         setEdges(generateLinks(updatedNodes));
+        console.log(" useEffect -> edges ", edges);
+
         onInvalidEditor(false);
         onCounterNodes(updatedNodes.length);
       } else {
@@ -49,12 +60,22 @@ const Main = ({
     forceLiveTransform,
     onInvalidEditor,
     onCounterNodes,
+    collapseGraph,
   ]);
+
+  useEffect(() => {
+    console.log(" useEffect -> algo cambio x2 ");
+    if (visibleNode) {
+      // setNodes(nodes);
+      setEdges(generateLinks(nodes.filter((e) => e.visible === true)));
+      console.log(" useEffect -> edges ", edges);
+    }
+  }, [visibleNode]);
 
   useEffect(() => {
     // Forzar la actualización del Canvas cuando cambia la dirección
     setKey((prevKey) => prevKey + 1);
-  }, [direction]);
+  }, [direction, collapseGraph]);
 
   const handleValidationError = useCallback(
     (errorMessage) => {
@@ -71,6 +92,34 @@ const Main = ({
           : node
       )
     );
+  }, []);
+
+  const handleNodeUpdate = useCallback((nodeId, updates) => {
+    console.log(" handleNodeUpdate -> ", nodeId, updates);
+
+    setNodes((prevNodes) => {
+      let auxNodes = [...prevNodes];
+      let pos = auxNodes.findIndex((e) => e.id === nodeId);
+
+      if (pos !== -1) {
+        auxNodes[pos] = {
+          ...auxNodes[pos],
+          // ...updates,
+          visible: !updates.visible,
+        };
+
+        // Modifica el estado visible de los hijos
+        auxNodes = auxNodes.map((node) =>
+          node.parentId === nodeId
+            ? { ...node, ...updates } // Sincroniza la visibilidad con el padre
+            : node
+        );
+      }
+      console.log(" auxNodes -> ", auxNodes);
+      return auxNodes.filter((e) => e.visible === true);
+    });
+
+    setVisibleNode((prevCount) => prevCount + 1);
   }, []);
 
   return (
@@ -126,12 +175,13 @@ const Main = ({
                           event.height
                         ),
                     }}
+                    onNodeUpdate={handleNodeUpdate}
                   />
                 )}
               </Node>
             }
             maxWidth={2000}
-            maxHeight={2000}
+            maxHeight={650}
           />
         </Space>
       </div>

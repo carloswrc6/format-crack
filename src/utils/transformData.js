@@ -12,7 +12,7 @@ import { classifyObjectData } from "./classifyObjectData";
  * @param {Array|Object} inputData - Array de objetos o un solo objeto a transformar.
  * @returns {Array} nodeArray - Array de nodos transformados.
  */
-export function transformToNodeArray(inputData) {
+export function transformToNodeArray(inputData, collapseGraph) {
   // Asegurarse de que `inputData` es un array, si es un solo objeto, convertirlo en un array
   let dataArray = Array.isArray(inputData) ? inputData : [inputData];
 
@@ -30,7 +30,7 @@ export function transformToNodeArray(inputData) {
 
   // Función para procesar un objeto y sus valores anidados
   function processObject(obj, parentId = null, typoData) {
-    let classObjData = classifyObjectData(obj);
+    let classObjData = classifyObjectData(obj, collapseGraph);
     let nodeData = classObjData.nodeData;
     let nestedObjects = classObjData.nestedObjects;
     let nestedArrays = classObjData.nestedArrays;
@@ -43,6 +43,7 @@ export function transformToNodeArray(inputData) {
     // Nodo principal
     let mainNode = {
       id: uuidv4(),
+      visible: true,
       height: NodeDimensions.height, // Altura dinámica
       width: NodeDimensions.width, // Ancho dinámico
       type: parentId === null ? "nodo" : typoData,
@@ -58,6 +59,8 @@ export function transformToNodeArray(inputData) {
       let nestedNodeDimention = calculateNestedNodeDimensions(key);
       let nestedNode = {
         id: uuidv4(),
+        visible: true,
+        btnVisible: true,
         height: nestedNodeDimention.height, // Altura fija o dinámica
         width: nestedNodeDimention.width, // Ancho dinámico basado en la longitud de la clave
         type: typoData ?? "Object",
@@ -84,6 +87,8 @@ export function transformToNodeArray(inputData) {
         let nestedNodeDimention = calculateNestedNodeDimensions(key);
         let arrayNode = {
           id: uuidv4(),
+          visible: true,
+          btnVisible: true,
           height: nestedNodeDimention.height, // Altura fija o dinámica
           width: nestedNodeDimention.width, // Ancho dinámico
           type: "Array",
@@ -110,6 +115,8 @@ export function transformToNodeArray(inputData) {
 
             let nestedArrayNode = {
               id: uuidv4(),
+              visible: true,
+              btnVisible: true,
               height: nestedArrayNodeDimention.height,
               width: nestedArrayNodeDimention.width,
               type: "Array",
@@ -143,6 +150,7 @@ export function transformToNodeArray(inputData) {
 
                 let nestedElementNode = {
                   id: uuidv4(),
+                  visible: true,
                   height: nestedElementDimention.height,
                   width: nestedElementDimention.width,
                   type: "ElementArray",
@@ -162,6 +170,7 @@ export function transformToNodeArray(inputData) {
 
             let elementNode = {
               id: uuidv4(),
+              visible: true,
               height: nestedNodeDimention.height, // Altura fija o dinámica
               width: nestedNodeDimention.width, // Ancho dinámico
               type: "ElementArray",

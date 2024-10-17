@@ -15,9 +15,10 @@ const App = () => {
   const [selectedLanguage, setSelectedLanguage] = useState("json");
   const [editorContent, setEditorContent] = useState("");
   const [graphDirection, setGraphDirection] = useState("RIGHT");
+  const [collapseGraph, setCollapseGraph] = useState(false);
 
   const handleLanguageChange = (language) => {
-    console.log("Cambiando lenguaje a:", language); // Agrega este log
+    // console.log("Cambiando lenguaje a:", language); // Agrega este log
     setSelectedLanguage(language);
   };
 
@@ -74,6 +75,14 @@ const App = () => {
     setGraphDirection(newDirection);
   }, []);
 
+  const handleViewOptionClick = useCallback(() => {
+    console.log("handleViewOptionClick padre (antes)", collapseGraph);
+    setCollapseGraph((prevState) => {
+      console.log("Nuevo valor de collapseGraph:", !prevState);
+      return !prevState;
+    });
+  }, []);
+
   return (
     <div className="App">
       <Header
@@ -81,6 +90,7 @@ const App = () => {
         onImport={handleImport}
         onExport={handleExport}
         onDirectionChange={handleDirectionChange}
+        onViewOptionClick={handleViewOptionClick}
       />
       <Main
         width={width}
@@ -94,6 +104,7 @@ const App = () => {
         content={editorContent}
         onContentChange={setEditorContent}
         direction={graphDirection}
+        collapseGraph={collapseGraph}
       />
       <Footer
         onEditorResizeToggle={toggleResize}
