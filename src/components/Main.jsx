@@ -40,10 +40,13 @@ const Main = ({
       if (result.status) {
         console.log(" useEffect -> collapseGraph ", collapseGraph);
         const updatedNodes = transformToNodeArray(result.json, collapseGraph);
-        console.log(" useEffect -> updatedNodes ", updatedNodes);
+        console.log(
+          " useEffect -> updatedNodes ",
+          JSON.stringify(updatedNodes)
+        );
         setNodes(updatedNodes);
         setEdges(generateLinks(updatedNodes));
-        console.log(" useEffect -> edges ", edges);
+        console.log(" useEffect -> edges ", JSON.stringify(edges));
 
         onInvalidEditor(false);
         onCounterNodes(updatedNodes.length);
@@ -66,7 +69,7 @@ const Main = ({
   useEffect(() => {
     console.log(" useEffect -> algo cambio x2 ");
     if (visibleNode) {
-      // setNodes(nodes);
+      setNodes(nodes);
       console.log(" nodes -> ", nodes);
       setEdges(generateLinks(nodes.filter((e) => e.visible === true)));
       console.log(" useEffect -> edges ", edges);
@@ -102,15 +105,22 @@ const Main = ({
       // Copiar los nodos actuales
       let auxNodes = [...prevNodes];
 
-      // Encuentra los hijos del nodo padre
-      auxNodes = auxNodes.map((node) =>
-        node.parentId === nodeId
-          ? { ...node, visible: !node.visible } // Cambia la visibilidad de los hijos
-          : node
-      );
+      // Función recursiva para ocultar descendientes
+      const hideDescendants = (parentId) => {
+        // Encuentra todos los hijos inmediatos del nodo actual
+        const children = auxNodes.filter((node) => node.parentId === parentId);
+
+        // Cambia la visibilidad de los hijos y llama recursivamente a cada uno
+        children.forEach((child) => {
+          child.visible = updates.visible; // Cambiar visibilidad
+          hideDescendants(child.id); // Llamada recursiva para los descendientes
+        });
+      };
+
+      // Inicia el proceso desde el nodo padre proporcionado
+      hideDescendants(nodeId);
 
       console.log("auxNodes ->", auxNodes);
-
       return auxNodes;
     });
 
