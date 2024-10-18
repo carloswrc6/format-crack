@@ -6,17 +6,15 @@ import {
 import { classifyObjectData } from "./classifyObjectData";
 
 /**
- * Transforma un array de objetos o un solo objeto en un array de nodos con formato específico.
- * Los objetos y arreglos anidados también se incluyen en el resultado final con tipos y nombres específicos.
+ * Transforma un array de objetos o un solo objeto en un array de nodos.
+ * Maneja objetos y arreglos anidados con niveles jerárquicos.
  *
- * @param {Array|Object} inputData - Array de objetos o un solo objeto a transformar.
+ * @param {Array|Object} inputData - Datos de entrada, array u objeto.
  * @returns {Array} nodeArray - Array de nodos transformados.
  */
 export function transformToNodeArray(inputData) {
-  // Asegurarse de que `inputData` es un array, si es un solo objeto, convertirlo en un array
-  let dataArray = Array.isArray(inputData) ? inputData : [inputData];
+  const dataArray = Array.isArray(inputData) ? inputData : [inputData];
 
-  // Comprobar que `dataArray` no está vacío y que contiene solo objetos válidos
   if (
     dataArray.length === 0 ||
     !dataArray.every((item) => typeof item === "object" && item !== null)
@@ -26,129 +24,109 @@ export function transformToNodeArray(inputData) {
     );
   }
 
-  let nodeArray = []; // Array para almacenar los nuevos objetos
+  const nodeArray = [];
 
-  // Función para procesar un objeto y sus valores anidados
-  function processObject(obj, parentId = null, typoData) {
-    let classObjData = classifyObjectData(obj);
-    let nodeData = classObjData.nodeData;
-    let nestedObjects = classObjData.nestedObjects;
-    let nestedArrays = classObjData.nestedArrays;
+  /**
+   * Procesa un objeto o array y agrega sus nodos con niveles.
+   *
+   * @param {Object} obj - Objeto actual.
+   * @param {string|null} parentId - ID del nodo padre.
+   * @param {string} typoData - Tipo de nodo.
+   * @param {number} level - Nivel jerárquico actual.
+   */
+  function processObject(obj, parentId = null, typoData = "nodo", level = 0) {
+    const { nodeData, nestedObjects, nestedArrays } = classifyObjectData(obj);
+    const NodeDimensions = calculateNodeDimensions(nodeData);
 
-    // console.log("nodeData -> ", nodeData);
-    // console.log("nestedObjects -> ", nestedObjects);
-    // console.log("nestedArrays -> ", nestedArrays);
-
-    let NodeDimensions = calculateNodeDimensions(nodeData);
     // Nodo principal
-    let mainNode = {
+    const mainNode = {
       id: uuidv4(),
       visible: true,
-      height: NodeDimensions.height, // Altura dinámica
-      width: NodeDimensions.width, // Ancho dinámico
+      height: NodeDimensions.height,
+      width: NodeDimensions.width,
       type: parentId === null ? "nodo" : typoData,
       data: nodeData,
-      parentId: parentId,
+      parentId,
+      level, // Asignar nivel
     };
 
     nodeArray.push(mainNode);
-    // console.log("xxxxxxxxxxxxxxxx");
-    // console.log("nestedObjects -> ", nestedObjects);
+
     // Procesar objetos anidados
     nestedObjects.forEach(({ key, value }) => {
-      let nestedNodeDimention = calculateNestedNodeDimensions(key);
-      let nestedNode = {
+      const nestedNodeDimention = calculateNestedNodeDimensions(key);
+      const nestedNode = {
         id: uuidv4(),
         visible: true,
         btnVisible: true,
-        height: nestedNodeDimention.height, // Altura fija o dinámica
-        width: nestedNodeDimention.width, // Ancho dinámico basado en la longitud de la clave
+        height: nestedNodeDimention.height,
+        width: nestedNodeDimention.width,
         type: typoData ?? "Object",
         data: { name: key },
         parentId: mainNode.id,
+        level: level + 1, // Incrementar nivel
       };
 
       nodeArray.push(nestedNode);
-
-      // Recursivamente procesar el objeto anidado
-      processObject(value, nestedNode.id, "ElementObject");
+      processObject(value, nestedNode.id, "ElementObject", level + 1);
     });
 
     // Procesar arreglos anidados
     nestedArrays.forEach(({ key, value }) => {
-      // console.log("key -> ", key);
-      // console.log("type key -> ", typeof key);
-      // console.log("value -> ", value);
-      // console.log("typeof value -> ", typeof value);
-
-      // Verificar si el arreglo contiene elementos
       if (value.length > 0) {
-        // Crear un nodo para representar el array principal
-        let nestedNodeDimention = calculateNestedNodeDimensions(key);
-        let arrayNode = {
+        const nestedNodeDimention = calculateNestedNodeDimensions(key);
+        const arrayNode = {
           id: uuidv4(),
           visible: true,
           btnVisible: true,
-          height: nestedNodeDimention.height, // Altura fija o dinámica
-          width: nestedNodeDimention.width, // Ancho dinámico
+          height: nestedNodeDimention.height,
+          width: nestedNodeDimention.width,
           type: "Array",
           data: { name: key },
           parentId: mainNode.id,
+          level: level + 1, // Incrementar nivel
         };
 
         nodeArray.push(arrayNode);
 
-        // Iterar sobre los elementos del array
         value.forEach((element) => {
-          // Si el elemento es un objeto
-          if (
-            typeof element === "object" &&
-            !Array.isArray(element) &&
-            element !== null
-          ) {
-            processObject(element, arrayNode.id, "ObjectObject");
-          }
-          // Si el elemento es un array anidado
-          else if (Array.isArray(element)) {
-            let nestedArrayNodeDimention =
+          if (typeof element === "object" && !Array.isArray(element)) {
+            processObject(element, arrayNode.id, "ObjectObject", level + 2);
+          } else if (Array.isArray(element)) {
+            const nestedArrayNodeDimention =
               calculateNestedNodeDimensions("Array");
-
-            let nestedArrayNode = {
+            const nestedArrayNode = {
               id: uuidv4(),
               visible: true,
               btnVisible: true,
               height: nestedArrayNodeDimention.height,
               width: nestedArrayNodeDimention.width,
               type: "Array",
-              data: { name: "Array" }, // Puedes nombrar el array anidado según corresponda
+              data: { name: "Array" },
               parentId: arrayNode.id,
+              level: level + 2, // Incrementar nivel
             };
 
             nodeArray.push(nestedArrayNode);
-
-            // Procesar cada elemento dentro del array anidado
             element.forEach((nestedElement) => {
               if (
                 typeof nestedElement === "object" &&
-                !Array.isArray(nestedElement) &&
-                nestedElement !== null
+                !Array.isArray(nestedElement)
               ) {
                 processObject(
                   nestedElement,
                   nestedArrayNode.id,
-                  "ObjectObject"
+                  "ObjectObject",
+                  level + 3
                 );
-              }
-              // Si el elemento es un valor primitivo dentro del array anidado
-              else if (
+              } else if (
                 typeof nestedElement === "string" ||
                 typeof nestedElement === "number"
               ) {
-                let nestedElementDimention = calculateNestedNodeDimensions(
+                const nestedElementDimention = calculateNestedNodeDimensions(
                   nestedElement.toString()
                 );
-
-                let nestedElementNode = {
+                const nestedElementNode = {
                   id: uuidv4(),
                   visible: true,
                   height: nestedElementDimention.height,
@@ -156,40 +134,36 @@ export function transformToNodeArray(inputData) {
                   type: "ElementArray",
                   data: { value: nestedElement },
                   parentId: nestedArrayNode.id,
+                  level: level + 3, // Incrementar nivel
                 };
-
                 nodeArray.push(nestedElementNode);
               }
             });
-          }
-          // Si el elemento es un valor primitivo (string o número)
-          else if (typeof element === "string" || typeof element === "number") {
-            let nestedNodeDimention = calculateNestedNodeDimensions(
+          } else if (
+            typeof element === "string" ||
+            typeof element === "number"
+          ) {
+            const nestedNodeDimention = calculateNestedNodeDimensions(
               element.toString()
             );
-
-            let elementNode = {
+            const elementNode = {
               id: uuidv4(),
               visible: true,
-              height: nestedNodeDimention.height, // Altura fija o dinámica
-              width: nestedNodeDimention.width, // Ancho dinámico
+              height: nestedNodeDimention.height,
+              width: nestedNodeDimention.width,
               type: "ElementArray",
               data: { value: element },
               parentId: arrayNode.id,
+              level: level + 2, // Incrementar nivel
             };
-
             nodeArray.push(elementNode);
           }
         });
-      } else {
-        // console.log("El arreglo está vacío");
-        console.log(" ");
       }
     });
   }
 
   // Procesar cada objeto en el array
-  // console.log("Procesando el objeto enviado");
   dataArray.forEach((obj) => processObject(obj));
 
   return nodeArray;
