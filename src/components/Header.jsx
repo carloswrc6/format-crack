@@ -96,10 +96,10 @@ const Header = ({
   const viewOptions = view.map((action) => ({
     ...action,
     onClick: () => handleViewAction(action.action),
-    description:
-      action.action === "rotateLayout"
-        ? `Dirección actual: ${cmbs.nodeDirections[currentDirection].name}`
-        : action.description,
+    // description:
+    //   action.action === "rotateLayout"
+    //     ? `Dirección actual: ${cmbs.nodeDirections[currentDirection].name}`
+    //     : action.description,
   }));
 
   const handleViewOptionClick = () => {

@@ -12,7 +12,7 @@ import { classifyObjectData } from "./classifyObjectData";
  * @param {Array|Object} inputData - Array de objetos o un solo objeto a transformar.
  * @returns {Array} nodeArray - Array de nodos transformados.
  */
-export function transformToNodeArray(inputData, collapseGraph) {
+export function transformToNodeArray(inputData) {
   // Asegurarse de que `inputData` es un array, si es un solo objeto, convertirlo en un array
   let dataArray = Array.isArray(inputData) ? inputData : [inputData];
 
@@ -30,7 +30,7 @@ export function transformToNodeArray(inputData, collapseGraph) {
 
   // Función para procesar un objeto y sus valores anidados
   function processObject(obj, parentId = null, typoData) {
-    let classObjData = classifyObjectData(obj, collapseGraph);
+    let classObjData = classifyObjectData(obj);
     let nodeData = classObjData.nodeData;
     let nestedObjects = classObjData.nestedObjects;
     let nestedArrays = classObjData.nestedArrays;

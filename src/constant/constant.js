@@ -40,7 +40,7 @@ export const cmbs = {
   viewActions: [
     {
       name: "Rotate Layout",
-      description: "Cambia la dirección del gráfico",
+      description: "",
       icon: AccountTreeIcon,
       action: "rotateLayout",
     },
