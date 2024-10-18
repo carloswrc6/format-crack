@@ -23,31 +23,20 @@ const Main = ({
   direction,
   collapseGraph,
 }) => {
-  const [nodes, setNodes] = useState(transformToNodeArray(data, collapseGraph));
+  const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
   const [previousContent, setPreviousContent] = useState("");
   const [key, setKey] = useState(0);
   const [visibleNode, setVisibleNode] = useState(0);
 
   useEffect(() => {
-    console.log(" useEffect -> algo cambio ");
-    if (
-      (liveTransform && content !== previousContent) ||
-      forceLiveTransform ||
-      collapseGraph
-    ) {
+    console.log(" useEffect -> algo cambio x44");
+    if ((liveTransform && content !== previousContent) || forceLiveTransform) {
       const result = validateAndParseJson(content);
       if (result.status) {
-        console.log(" useEffect -> collapseGraph ", collapseGraph);
-        const updatedNodes = transformToNodeArray(result.json, collapseGraph);
-        console.log(
-          " useEffect -> updatedNodes ",
-          JSON.stringify(updatedNodes)
-        );
+        const updatedNodes = transformToNodeArray(result.json);
         setNodes(updatedNodes);
-        setEdges(generateLinks(updatedNodes));
-        console.log(" useEffect -> edges ", JSON.stringify(edges));
-
+        setEdges(generateLinks(updatedNodes.filter((e) => e.visible === true)));
         onInvalidEditor(false);
         onCounterNodes(updatedNodes.length);
       } else {
@@ -63,7 +52,6 @@ const Main = ({
     forceLiveTransform,
     onInvalidEditor,
     onCounterNodes,
-    collapseGraph,
   ]);
 
   useEffect(() => {
@@ -127,6 +115,44 @@ const Main = ({
     // Incrementar el conteo de nodos visibles
     setVisibleNode((prevCount) => prevCount + 1);
   }, []);
+
+  useEffect(() => {
+    console.log("useEffect collapseGraph ejecutado");
+
+    // Crea una copia del estado actual de nodes
+    let auxNodes = [...nodes];
+
+    // Filtra los nodos que tienen `btnVisible` y están en `level === 1`
+    const nodesWithBtnVisible = auxNodes.filter(
+      (node) => node.btnVisible && node.level === 1
+    );
+
+    console.log("Nodos con btnVisible 1:", nodesWithBtnVisible);
+
+    // Función recursiva para ocultar descendientes
+    const hideDescendants = (parentId) => {
+      // Encuentra todos los hijos inmediatos del nodo actual
+      const children = auxNodes.filter((node) => node.parentId === parentId);
+
+      // Cambia la visibilidad de los hijos y llama recursivamente a cada uno
+      children.forEach((child) => {
+        child.visible = false; // Cambiar visibilidad a false
+        hideDescendants(child.id); // Llamada recursiva para los descendientes
+      });
+    };
+
+    // Aplica `hideDescendants` a cada nodo con `btnVisible` en `level === 1`
+    nodesWithBtnVisible.forEach((node) => {
+      hideDescendants(node.id);
+    });
+
+    console.log("Nodos con btnVisible 2:", nodesWithBtnVisible);
+    console.log(" auxNodes :", auxNodes);
+
+    // Actualiza el estado de `nodes` con los cambios realizados en auxNodes
+    setNodes(auxNodes);
+    setEdges(generateLinks(auxNodes.filter((e) => e.visible === true)));
+  }, [collapseGraph]);
 
   return (
     <div className="content">
