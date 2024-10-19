@@ -16,6 +16,7 @@ const App = () => {
   const [editorContent, setEditorContent] = useState("");
   const [graphDirection, setGraphDirection] = useState("RIGHT");
   const [collapseGraph, setCollapseGraph] = useState(false);
+  const [focusFirstNode, setFocusFirstNode] = useState(false);
 
   const handleLanguageChange = (language) => {
     // console.log("Cambiando lenguaje a:", language); // Agrega este log
@@ -83,6 +84,13 @@ const App = () => {
     });
   }, []);
 
+  const handleFocusFirstNode = useCallback(() => {
+    console.log("handleFocusFirstNode padre (antes)", focusFirstNode);
+    setFocusFirstNode((prevState) => {
+      console.log("Nuevo valor de setFocusFirstNode:", !prevState);
+      return !prevState;
+    });
+  }, []);
   return (
     <div className="App">
       <Header
@@ -91,6 +99,7 @@ const App = () => {
         onExport={handleExport}
         onDirectionChange={handleDirectionChange}
         onViewOptionClick={handleViewOptionClick}
+        onFocusFirstNode={handleFocusFirstNode}
       />
       <Main
         width={width}
@@ -105,6 +114,7 @@ const App = () => {
         onContentChange={setEditorContent}
         direction={graphDirection}
         collapseGraph={collapseGraph}
+        focusFirstNode={focusFirstNode}
       />
       <Footer
         onEditorResizeToggle={toggleResize}
