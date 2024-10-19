@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Canvas, Node } from "reaflow";
 import data from "../mocks/archivoJson.json";
 import { generateLinks } from "../utils/generateLink";
@@ -22,6 +22,7 @@ const Main = ({
   onContentChange,
   direction,
   collapseGraph,
+  focusFirstNode,
 }) => {
   const [nodes, setNodes] = useState(transformToNodeArray(data));
   const [edges, setEdges] = useState(generateLinks(nodes));
@@ -29,8 +30,27 @@ const Main = ({
   const [key, setKey] = useState(0);
   const [visibleNode, setVisibleNode] = useState(0);
 
+  // Ref para almacenar la referencia del canvas
+  const canvasRef = useRef(null);
+
   useEffect(() => {
-    console.log(" useEffect -> algo cambio x44");
+    if (focusFirstNode) {
+      console.log("Focus en el primer nodo activado");
+
+      // Encuentra el primer nodo visible
+      const firstVisibleNode = nodes.find((node) => node.visible);
+
+      if (firstVisibleNode) {
+        console.log("Primer nodo visible:", firstVisibleNode);
+        // Ajusta la vista del canvas para centrar el primer nodo
+        canvasRef.current?.fitNodes([firstVisibleNode.id]);
+      } else {
+        console.log("No se encontró un nodo visible.");
+      }
+    }
+  }, [focusFirstNode]);
+
+  useEffect(() => {
     if ((liveTransform && content !== previousContent) || forceLiveTransform) {
       const result = validateAndParseJson(content);
       if (result.status) {
@@ -181,6 +201,7 @@ const Main = ({
           centerContent={true}
         >
           <Canvas
+            ref={canvasRef} // Asigna la referencia del canvas aquí
             key={key}
             direction={direction}
             readonly={true}

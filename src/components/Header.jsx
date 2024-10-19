@@ -24,6 +24,7 @@ const Header = ({
   onExport,
   onDirectionChange,
   onViewOptionClick,
+  onFocusFirstNode,
 }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentDirection, setCurrentDirection] = useState(0);
@@ -79,6 +80,7 @@ const Header = ({
           handleViewOptionClick();
           break;
         case "focusFirstNode":
+          focusFirstNode();
           console.log("Enfocar al primer nodo");
           break;
         default:
@@ -106,6 +108,12 @@ const Header = ({
     console.log("handleViewOptionClick hijo");
     onViewOptionClick();
   };
+
+  const focusFirstNode = () => {
+    console.log("focusFirstNode hijo");
+    onFocusFirstNode();
+  };
+  focusFirstNode;
 
   return (
     <header>
