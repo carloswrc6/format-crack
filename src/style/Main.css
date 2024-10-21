@@ -14,8 +14,14 @@
   min-height: 92vh;
 }
 
+[class^="react-zoomable-ui-"] > .react-zoomable-ui-inner-div {
+  width: 3000000px !important;
+  height: 3000000px !important;
+}
+
 ._container_1ryvh_1._pannable_1ryvh_2 {
   overflow: hidden !important;
+  /* background-color: aqua; */
 }
 
 .resizer {
